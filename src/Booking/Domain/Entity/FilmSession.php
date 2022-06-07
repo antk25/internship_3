@@ -2,15 +2,17 @@
 
 namespace App\Booking\Domain\Entity;
 
+use App\Booking\Domain\ValueObject\Film;
+use App\Booking\Services\UuidService;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Uid\Uuid;
 
 final class FilmSession
 {
     #[ORM\Column(type: 'uuid')]
     #[ORM\Id]
-    private Uuid $id;
+    private string $id;
 
+    #[ORM\Embedded(class: Film::class)]
     private readonly Film $film;
 
     #[ORM\Column(name: 'date_time_start', type: 'datetime_immutable')]
@@ -23,14 +25,16 @@ final class FilmSession
     private \DateTimeInterface $timeEndFilmSession;
 
     /**
+     * @param mixed $ticketsCount
+     *
      * @throws \Exception
      */
     public function __construct(
         Film $film,
         \DateTimeInterface $dateTimeStartFilmSession,
-        $ticketsCount,
+        int $ticketsCount,
     ) {
-        $this->id = Uuid::v4();
+        $this->id = UuidService::generate();
         $this->film = $film;
         $this->dateTimeStartFilmSession = $dateTimeStartFilmSession;
         $this->ticketsCount = $ticketsCount;

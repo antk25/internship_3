@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Entity\ValueObject;
+namespace App\Booking\Domain\ValueObject;
 
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Embeddable]
-class Film
+final class Film
 {
     #[ORM\Column(type: 'string')]
     private string $filmName;
