@@ -36,8 +36,6 @@ final class Film
     }
 
     /**
-     * @param mixed $filmLength
-     *
      * @throws \Exception
      */
     private static function filmLengthInDateInterval(int $filmLength): \DateInterval
