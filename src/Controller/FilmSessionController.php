@@ -2,9 +2,14 @@
 
 namespace App\Controller;
 
+use App\Booking\Domain\Entity\ValueObject\Client;
+use App\Booking\Domain\TransferObject\NewClientDto;
+use App\Form\NewClientType;
 use App\Repository\FilmSessionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 final class FilmSessionController extends AbstractController
@@ -17,6 +22,26 @@ final class FilmSessionController extends AbstractController
     {
         return $this->render('film_session/index.html.twig', [
             'filmSessions' => $filmSessionRepository->findAll(),
+        ]);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    #[Route('film/session/{id}', name: 'film_session')]
+    public function show(Request $request, FilmSessionRepository $filmSessionRepository, string $id, MessageBusInterface $bus): Response
+    {
+        $clientDto = new NewClientDto();
+
+        $form = $this->createForm(NewClientType::class, $clientDto);
+
+        $form->handleRequest($request);
+
+        $filmSession = $filmSessionRepository->findById($id);
+
+        return $this->render('film_session/show.html.twig', [
+            'filmSession' => $filmSession,
+            'form' => $form->createView(),
         ]);
     }
 }
