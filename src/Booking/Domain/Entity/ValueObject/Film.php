@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Booking\Domain\ValueObject;
+namespace App\Booking\Domain\Entity\ValueObject;
 
 use Doctrine\ORM\Mapping as ORM;
 
