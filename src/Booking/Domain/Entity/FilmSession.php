@@ -72,7 +72,7 @@ final class FilmSession
 
     public function setCountTickets(): void
     {
-        $this->ticketsCount -= $this->ticketsCount;
+        $this->ticketsCount -= 1;
     }
 
     public function checkTicketsAvail(): bool
