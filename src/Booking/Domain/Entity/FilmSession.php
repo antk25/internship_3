@@ -52,9 +52,27 @@ final class FilmSession
         return $this->dateTimeStartFilmSession;
     }
 
-    public function getTimeEndFilmSession(): \DateTimeImmutable
+    public function getDateTimeEndFilmSession(): \DateTimeImmutable
     {
         return $this->timeEndFilmSession;
+    }
+
+    public function getFilmName(): string
+    {
+        return $this->film->getFilmName();
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function getFilmLength(): \DateInterval
+    {
+        return $this->film->getFilmLength();
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
     }
 
     /**

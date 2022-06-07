@@ -20,11 +20,8 @@
                 <ul>
                     <li>Дата сеанса: {{ filmSession.getDateTimeStartFilmSession|date('Y.m.d') }}</li>
                     <li>Вермя начала: {{ filmSession.getDateTimeStartFilmSession|date('H:i') }}</li>
-                    <li>Время окончания: {{ filmSession.getTimeEndFilmSession|date('H:i') }}</li>
-                    <li>Кол-во свободных мест: {{ filmSession.getCountOfVacancies }}</li>
+                    <li>Время окончания: {{ filmSession.getDateTimeEndFilmSession|date('H:i') }}</li>
                 </ul>
-
-                <a href="{{ path('film_session', { id: filmSession.getId }) }}"><button class="button">Выбрать</button></a>
             </div>
         {% endfor %}
     </div>
