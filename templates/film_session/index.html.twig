@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Список сеансов{% endblock %}
+
+{% block body %}
+    <style>
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+        .film-container { margin-bottom: 20px; }
+        .button { font-size: large }
+    </style>
+
+    <div class="example-wrapper">
+        <h1>Список сеансов</h1>
+
+        {% for filmSession in filmSessions %}
+
+            <div class="film-container">
+                <h2>{{ filmSession.getFilmName }}</h2>
+                <ul>
+                    <li>Дата сеанса: {{ filmSession.getDateTimeStartFilmSession|date('Y.m.d') }}</li>
+                    <li>Вермя начала: {{ filmSession.getDateTimeStartFilmSession|date('H:i') }}</li>
+                    <li>Время окончания: {{ filmSession.getTimeEndFilmSession|date('H:i') }}</li>
+                    <li>Кол-во свободных мест: {{ filmSession.getCountOfVacancies }}</li>
+                </ul>
+
+                <a href="{{ path('film_session', { id: filmSession.getId }) }}"><button class="button">Выбрать</button></a>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
