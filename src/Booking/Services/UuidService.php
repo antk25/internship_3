@@ -4,7 +4,7 @@ namespace App\Booking\Services;
 
 use Symfony\Component\Uid\Uuid;
 
-class UuidService
+final class UuidService
 {
     public static function generate(): string
     {
