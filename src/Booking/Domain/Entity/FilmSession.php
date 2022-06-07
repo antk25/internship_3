@@ -2,9 +2,11 @@
 
 namespace App\Booking\Domain\Entity;
 
+use App\Booking\Domain\Entity\ValueObject\Client;
 use App\Booking\Domain\Entity\ValueObject\Film;
 use App\Booking\Services\UuidService;
 use App\Repository\FilmSessionRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: FilmSessionRepository::class)]
@@ -27,6 +29,9 @@ final class FilmSession
     #[ORM\Column(name: 'date_time_end', type: 'datetime_immutable')]
     private \DateTimeInterface $timeEndFilmSession;
 
+    #[ORM\OneToMany(mappedBy: 'filmSession', targetEntity: Ticket::class, cascade: ['persist'], orphanRemoval: true)]
+    private Collection $tickets;
+
     /**
      * @param mixed $ticketsCount
      *
@@ -42,6 +47,37 @@ final class FilmSession
         $this->dateTimeStartFilmSession = $dateTimeStartFilmSession;
         $this->ticketsCount = $ticketsCount;
         $this->timeEndFilmSession = $this->calcTimeEndFilmSession();
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function bookTicket(Client $client): void
+    {
+        if ($this->checkTicketsAvail()) {
+            throw new \Exception('No more tickets');
+        }
+
+        $ticket = new Ticket($client, $this);
+
+        $this->tickets->add($ticket);
+
+        $this->ticketsCount--;
+    }
+
+    public function getCountOfVacancies(): int
+    {
+        return $this->ticketsCount;
+    }
+
+    public function setCountTickets(): void
+    {
+        $this->ticketsCount -= $this->ticketsCount;
+    }
+
+    public function checkTicketsAvail(): bool
+    {
+        return $this->ticketsCount <= 0;
     }
 
     /**

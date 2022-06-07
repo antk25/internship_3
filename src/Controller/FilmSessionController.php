@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Booking\Domain\Command\CreateTicketCommand;
 use App\Booking\Domain\Entity\ValueObject\Client;
 use App\Booking\Domain\TransferObject\NewClientDto;
 use App\Form\NewClientType;
@@ -37,7 +38,12 @@ final class FilmSessionController extends AbstractController
 
         $form->handleRequest($request);
 
-        $filmSession = $filmSessionRepository->findById($id);
+        $filmSession = $filmSessionRepository->getById($id);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $client = new Client($clientDto->name, $clientDto->phone);
+            $bus->dispatch(new CreateTicketCommand($filmSession, $client));
+        }
 
         return $this->render('film_session/show.html.twig', [
             'filmSession' => $filmSession,
