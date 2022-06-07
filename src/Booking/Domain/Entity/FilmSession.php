@@ -2,7 +2,6 @@
 
 namespace App\Booking\Domain\Entity;
 
-use App\Booking\Domain\Entity\ValueObject\Client;
 use App\Booking\Domain\Entity\ValueObject\Film;
 use App\Booking\Services\UuidService;
 use App\Repository\FilmSessionRepository;
@@ -47,22 +46,6 @@ final class FilmSession
         $this->dateTimeStartFilmSession = $dateTimeStartFilmSession;
         $this->ticketsCount = $ticketsCount;
         $this->timeEndFilmSession = $this->calcTimeEndFilmSession();
-    }
-
-    /**
-     * @throws \Exception
-     */
-    public function bookTicket(Client $client): void
-    {
-        if ($this->checkTicketsAvail()) {
-            throw new \Exception('No more tickets');
-        }
-
-        $ticket = new Ticket($client, $this);
-
-        $this->tickets->add($ticket);
-
-        $this->ticketsCount--;
     }
 
     public function getCountOfVacancies(): int
