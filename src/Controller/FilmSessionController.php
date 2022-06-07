@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class FilmSessionController extends AbstractController
+final class FilmSessionController extends AbstractController
 {
     /**
      * @throws \Exception
@@ -15,7 +15,6 @@ class FilmSessionController extends AbstractController
     #[Route('/films', name: 'app_film_session')]
     public function index(FilmSessionRepository $filmSessionRepository): Response
     {
-
         return $this->render('film_session/index.html.twig', [
             'filmSessions' => $filmSessionRepository->findAll(),
         ]);
