@@ -3,8 +3,8 @@
 namespace App\Booking\Domain\Service;
 
 use App\Booking\Domain\Entity\FilmSession;
+use App\Booking\Domain\Entity\ValueObject\Film;
 use App\Booking\Domain\TransferObject\FilmSessionDto;
-use App\Booking\Domain\ValueObject\Film;
 
 final class FilmSessionService
 {

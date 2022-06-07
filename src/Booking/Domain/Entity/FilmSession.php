@@ -2,10 +2,13 @@
 
 namespace App\Booking\Domain\Entity;
 
-use App\Booking\Domain\ValueObject\Film;
+use App\Booking\Domain\Entity\ValueObject\Film;
 use App\Booking\Services\UuidService;
+use App\Repository\FilmSessionRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\Entity(repositoryClass: FilmSessionRepository::class)]
+#[ORM\Table(name: 'film_sessions')]
 final class FilmSession
 {
     #[ORM\Column(type: 'uuid')]
