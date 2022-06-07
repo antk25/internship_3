@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello FilmSessionController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>{{ filmSession.getFilmName }}</h1>
+
+    <ul>
+    <li>Продолжительность сеанса: {{ filmSession.getFilmLength|date('%i минут') }}</li>
+    <li>Дата сеанса: {{ filmSession.getDateTimeStartFilmSession|date('Y.m.d') }}</li>
+    <li>Вермя начала: {{ filmSession.getDateTimeStartFilmSession|date('H:i') }}</li>
+    <li>Время окончания: {{ filmSession.getTimeEndFilmSession|date('H:i') }}</li>
+    <li>Кол-во свободных мест: {{ filmSession.getCountOfVacancies }}</li>
+    </ul>
+
+    <h2>Забронировать</h2>
+
+    {% if filmSession.countOfVacancies >= 1 %}
+
+        {{ form(form) }}
+
+        {% else %}
+
+        Билетов не осталось
+
+    {% endif %}
+
+</div>
+{% endblock %}
