@@ -89,7 +89,7 @@ final class FilmSession
         return $this->film->getFilmLength();
     }
 
-    public function getId(): string
+    public function getFilmSessionId(): string
     {
         return $this->id;
     }

@@ -42,7 +42,7 @@ final class CreateTicketHandler
     {
         $entityManager = $this->registry->getManager();
 
-        $product = $entityManager->getRepository(FilmSession::class)->find($createTicketCommand->filmSession->getId());
+        $product = $entityManager->getRepository(FilmSession::class)->find($createTicketCommand->filmSession->getFilmSessionId());
 
         $product->setCountTickets();
 

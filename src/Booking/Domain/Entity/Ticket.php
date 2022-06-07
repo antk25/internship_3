@@ -31,7 +31,7 @@ final class Ticket
         $this->filmSession = $filmSession;
     }
 
-    public function getId(): string
+    public function getTicketId(): string
     {
         return $this->id;
     }
