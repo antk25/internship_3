@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TicketRepository::class)]
 #[ORM\Table(name: 'tickets')]
-class Ticket
+final class Ticket
 {
     #[ORM\Column(type: 'uuid', unique: true)]
     #[ORM\Id]

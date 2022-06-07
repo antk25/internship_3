@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Booking\Infrastructure\Repository;
+namespace App\Repository;
 
+use App\Booking\Domain\Entity\Ticket;
 use App\Booking\Domain\Repository\TicketRepositoryInterface;
-use App\Entity\Ticket;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

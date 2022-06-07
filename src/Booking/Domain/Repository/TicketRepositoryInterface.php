@@ -2,7 +2,7 @@
 
 namespace App\Booking\Domain\Repository;
 
-use App\Entity\Ticket;
+use App\Booking\Domain\Entity\Ticket;
 
 interface TicketRepositoryInterface
 {
