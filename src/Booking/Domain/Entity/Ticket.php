@@ -3,8 +3,8 @@
 namespace App\Booking\Domain\Entity;
 
 use App\Booking\Domain\Entity\ValueObject\Client;
-use App\Booking\Infrastructure\Repository\TicketRepository;
 use App\Booking\Services\UuidService;
+use App\Repository\TicketRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TicketRepository::class)]
@@ -24,7 +24,7 @@ final class Ticket
 
     public function __construct(
         Client $client,
-        FilmSession $filmSession
+        FilmSession $filmSession,
     ) {
         $this->id = UuidService::generate();
         $this->client = $client;
