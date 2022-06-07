@@ -4,7 +4,7 @@ namespace App\Booking\Domain\Command;
 
 use App\Booking\Domain\Entity\FilmSession;
 use App\Booking\Domain\Entity\Ticket;
-use App\Repository\TicketRepository;
+use App\Booking\Domain\Repository\TicketRepositoryInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -12,7 +12,7 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 final class CreateTicketHandler
 {
     public function __construct(
-        private readonly TicketRepository $ticketRepository,
+        private readonly TicketRepositoryInterface $ticketRepository,
         private readonly ManagerRegistry $registry,
     )
     {
