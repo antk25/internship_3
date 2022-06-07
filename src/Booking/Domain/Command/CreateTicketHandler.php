@@ -14,8 +14,7 @@ final class CreateTicketHandler
     public function __construct(
         private readonly TicketRepositoryInterface $ticketRepository,
         private readonly ManagerRegistry $registry,
-    )
-    {
+    ) {
     }
 
     /**
@@ -39,7 +38,7 @@ final class CreateTicketHandler
         return new Ticket($createTicketCommand->client, $createTicketCommand->filmSession);
     }
 
-    private function updateCountTickets($createTicketCommand): void
+    private function updateCountTickets(CreateTicketCommand $createTicketCommand): void
     {
         $entityManager = $this->registry->getManager();
 

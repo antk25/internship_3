@@ -9,7 +9,7 @@ final class CreateTicketCommand
 {
     public function __construct(
         public readonly FilmSession $filmSession,
-        public readonly Client $client
+        public readonly Client $client,
     ) {
     }
 }
