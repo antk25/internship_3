@@ -48,7 +48,7 @@ final class FilmSession
         $this->timeEndFilmSession = $this->calcTimeEndFilmSession();
     }
 
-    public function getCountOfVacancies(): int
+    public function getCountOfTicketsAvailable(): int
     {
         return $this->ticketsCount;
     }
