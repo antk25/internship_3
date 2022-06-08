@@ -47,10 +47,6 @@ RUN docker-php-ext-install opcache && \
 
 RUN rm -rf /var/lib/apt/lists/*
 
-RUN php bin/console doctrine:migrations:migrate -n
-
-RUN php bin/console doctrine:fixtures:load -n
-
 RUN chown www-data:1000 /var/www
 
 VOLUME ["/var/www"]
