@@ -18,7 +18,7 @@ final class FilmSessionController extends AbstractController
     /**
      * @throws \Exception
      */
-    #[Route('/films', name: 'app_film_session')]
+    #[Route('/films', name: 'film_sessions')]
     public function index(FilmSessionRepository $filmSessionRepository): Response
     {
         return $this->render('film_session/index.html.twig', [
@@ -47,6 +47,8 @@ final class FilmSessionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $client = new Client($clientDto->name, $clientDto->phone);
             $bus->dispatch(new CreateTicketCommand($filmSession, $client));
+
+            return $this->redirectToRoute('film_sessions');
         }
 
         return $this->render('film_session/show.html.twig', [
