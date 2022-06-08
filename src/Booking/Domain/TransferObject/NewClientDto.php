@@ -10,8 +10,8 @@ class NewClientDto
     #[Assert\Length(
         min: 3,
         max: 50,
-        minMessage: 'Your first name must be at least {{ limit }} characters long',
-        maxMessage: 'Your first name cannot be longer than {{ limit }} characters',
+        minMessage: 'Длина вашего имени должна составлять не менее {{ limit }} символов',
+        maxMessage: 'Ваше имя не может быть длиннее {{ limit}} символов',
     )]
     public string $name;
 
