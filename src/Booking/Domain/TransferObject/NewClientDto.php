@@ -16,6 +16,9 @@ final class NewClientDto
     public string $name;
 
     #[Assert\NotBlank]
-    #[Assert\Regex('/[78][-(]?\d{3}\)?-?\d{3}-?\d{2}-?\d{2}$/m')]
+    #[Assert\Regex(
+        '/[78][-(]?\d{3}\)?-?\d{3}-?\d{2}-?\d{2}$/m',
+        message: 'Неправильный формат номера телефона',
+    )]
     public string $phone;
 }
