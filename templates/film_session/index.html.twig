@@ -24,7 +24,7 @@
                     <li>Кол-во свободных мест: {{ filmSession.getCountOfVacancies }}</li>
                 </ul>
 
-                <a href="{{ path('film_session', { id: filmSession.getId }) }}"><button class="button">Выбрать</button></a>
+                <a href="{{ path('film_session', { id: filmSession.getFilmSessionId }) }}"><button class="button">Выбрать</button></a>
 
             </div>
         {% endfor %}
