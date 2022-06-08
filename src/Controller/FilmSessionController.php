@@ -30,8 +30,12 @@ final class FilmSessionController extends AbstractController
      * @throws \Exception
      */
     #[Route('film/session/{id}', name: 'film_session')]
-    public function show(Request $request, FilmSessionRepository $filmSessionRepository, string $id, MessageBusInterface $bus): Response
-    {
+    public function show(
+        Request $request,
+        FilmSessionRepository $filmSessionRepository,
+        string $id,
+        MessageBusInterface $bus,
+    ): Response {
         $clientDto = new NewClientDto();
 
         $form = $this->createForm(NewClientType::class, $clientDto);
