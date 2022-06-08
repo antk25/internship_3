@@ -4,7 +4,7 @@ namespace App\Booking\Domain\TransferObject;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-class NewClientDto
+final class NewClientDto
 {
     #[Assert\NotBlank]
     #[Assert\Length(
@@ -16,5 +16,6 @@ class NewClientDto
     public string $name;
 
     #[Assert\NotBlank]
+    #[Assert\Regex('/[78][-(]?\d{3}\)?-?\d{3}-?\d{2}-?\d{2}$/m')]
     public string $phone;
 }
