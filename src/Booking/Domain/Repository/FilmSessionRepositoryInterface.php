@@ -6,7 +6,7 @@ use App\Booking\Domain\Entity\FilmSession;
 
 interface FilmSessionRepositoryInterface
 {
-    public function getById(string $id): FilmSession;
+    public function findById(string $id): FilmSession;
 
-    public function update(FilmSession $filmSession): void;
+    public function save(FilmSession $filmSession): void;
 }
