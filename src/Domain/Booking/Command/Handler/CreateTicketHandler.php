@@ -26,11 +26,9 @@ final class CreateTicketHandler
     {
         $client = new Client($createTicketCommand->name, $createTicketCommand->phone);
 
-        $ticket = $this->bookTicket($createTicketCommand);
+        $filmSession = $createTicketCommand->filmSession->bookTicket($client);
 
-        $this->ticketRepository->save($ticket);
-
-        $this->updateCountTickets($createTicketCommand);
+        $this->filmSessionRepository->save($filmSession);
     }
 
     private function bookTicket(CreateTicketCommand $createTicketCommand): Ticket
