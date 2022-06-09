@@ -14,12 +14,12 @@ final class FilmSessionRepository extends ServiceEntityRepository implements Fil
         parent::__construct($registry, FilmSession::class);
     }
 
-    public function getById(string $id): FilmSession
+    public function findById(string $id): FilmSession
     {
         return $this->find($id);
     }
 
-    public function update(FilmSession $filmSession): void
+    public function save(FilmSession $filmSession): void
     {
         $this->_em->persist($filmSession);
         $this->_em->flush();
