@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Booking\Domain\Command;
+namespace App\Booking\Domain\Command\Handler;
 
+use App\Booking\Domain\Command\CreateTicketCommand;
 use App\Booking\Domain\Entity\FilmSession;
 use App\Booking\Domain\Entity\Ticket;
 use App\Booking\Domain\Repository\TicketRepositoryInterface;
