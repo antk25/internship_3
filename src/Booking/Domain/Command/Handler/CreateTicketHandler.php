@@ -29,7 +29,7 @@ final class CreateTicketHandler
 
         $ticket = $this->bookTicket($createTicketCommand);
 
-        $this->ticketRepository->add($ticket);
+        $this->ticketRepository->save($ticket);
 
         $this->updateCountTickets($createTicketCommand);
     }
