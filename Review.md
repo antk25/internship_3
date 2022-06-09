@@ -31,9 +31,9 @@ interface FilmSessionRepositoryInterface
     public function save(FilmSession $filmSession): void;
 }
 ```
-- [ ] index.html.twig:17 лишний перенос и в строке 22 опечатка
-- [ ] index.html.twig при использовании twig можно обращаться к entity так: Можно сделать так: <li>Дата сеанса: {{ filmSession.dateTimeStartFilmSession|date('Y.m.d') }}</li>
-- [ ] show.html.twig:15 отсутствует отступ.
+- [x] index.html.twig:17 лишний перенос и в строке 22 опечатка
+- [x] index.html.twig при использовании twig можно обращаться к entity так: Можно сделать так: <li>Дата сеанса: {{ filmSession.dateTimeStartFilmSession|date('Y.m.d') }}</li>
+- [x] show.html.twig:15 отсутствует отступ.
 - [ ] Имя для CreateTicketCommand выбрано неудачно, вводит в заблуждение. По факту команда не "создает билет", а бронирует место. Предлагаю переименовать.
 - [ ] CreateTicketCommand - Для создания билета тебе необходимы только "сеанс", "имя" и "номер" клиента.
 - [ ] После рефакторинга, в команде CreateTicketCommand останутся "простые" данные, которые легко будет валидировать перед выполнением операции.
