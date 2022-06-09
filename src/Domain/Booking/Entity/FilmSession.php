@@ -2,8 +2,10 @@
 
 namespace App\Domain\Booking\Entity;
 
+use App\Domain\Booking\Entity\ValueObject\Client;
 use App\Domain\Booking\Entity\ValueObject\Film;
 use App\Domain\Booking\Repository\DoctrineFilmSessionRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
@@ -48,6 +50,26 @@ final class FilmSession
         $this->ticketsCount = $ticketsCount;
         $this->timeEndFilmSession = $this->calcTimeEndFilmSession();
         $this->tickets = new ArrayCollection();
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function bookTicket(Client $client): FilmSession
+    {
+        if ($this->checkTicketsAvail()) {
+            throw new \Exception('No more tickets');
+        }
+
+        $ticketId = Uuid::v4();
+
+        $ticket = new Ticket($ticketId, $client, $this);
+
+        $this->tickets->add($ticket);
+
+        $this->ticketsCount--;
+
+        return $this;
     }
 
     public function getCountOfTicketsAvailable(): int
