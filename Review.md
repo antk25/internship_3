@@ -15,16 +15,16 @@ src
 |   +-- Kernel.php
 templates
 </pre>
-- [ ] FilmSessionController:19 При получении методами контроллера исключений приложение будет возвращать 500 ошибку, хочется видеть перехват и ошибку 404 (NotFoundHttpException)
-- [ ] FilmSessionController:21 В маршрутах не очень удачно стыкуются данные '/films', name: 'film_sessions. Предлагаю привести к одному смыслу, - фильмы или сеансы.
-- [ ] FilmSessionController:36 У symfony, есть конвертер параметров. Предлагаю ознакомиться и переделать https://symfony.com/doc/current/routing.html#parameter-conversion
+- [x] FilmSessionController:19 При получении методами контроллера исключений приложение будет возвращать 500 ошибку, хочется видеть перехват и ошибку 404 (NotFoundHttpException)
+- [x] FilmSessionController:21 В маршрутах не очень удачно стыкуются данные '/films', name: 'film_sessions. Предлагаю привести к одному смыслу, - фильмы или сеансы.
+- [x] FilmSessionController:36 У symfony, есть конвертер параметров. Предлагаю ознакомиться и переделать https://symfony.com/doc/current/routing.html#parameter-conversion
 - [ ] FilmSessionController:37 имя $bus не отражает суть. Лучше будет переименовать в $messageBus.
 - [ ] FilmSessionController:39 Команда CreateTicketCommand после рефакторинга станет простой структурой данных. Можно ее инициализировать и передать в форму, для наполнения.
-- [ ] FilmSessionController:35 FilmSessionRepository в домене видел FilmSessionRepositoryInterface. Судя по всему план был его использовать в контроллере. Сейчас выглядит странно выделение интерфейса и не использование его.
+- [x] FilmSessionController:35 FilmSessionRepository в домене видел FilmSessionRepositoryInterface. Судя по всему план был его использовать в контроллере. Сейчас выглядит странно выделение интерфейса и не использование его.
 - [ ] FilmSessionController:48 Предлагаю унести на слой инфраструктуры(в handler) функционал создания клиента.
 - [ ] FilmSessionRepository предлагаю унести в домен. Так у нас принято делать в проектах.
 - [ ] FilmSessionRepositoryInterface не очень удачное именование методов. Лучше переименовать в findById и save. Чаще всего именно такое именование можно встретить на проектах у нас в компании
-```phpt
+```php
 interface FilmSessionRepositoryInterface
 {
     public function findById(string $id): ?FilmSession;
