@@ -25,20 +25,4 @@ final class CreateTicketHandler
 
         $this->filmSessionRepository->save($filmSession);
     }
-
-    private function bookTicket(CreateTicketCommand $createTicketCommand): Ticket
-    {
-        return new Ticket(Uuid::v4(), $createTicketCommand->client, $createTicketCommand->filmSession);
-    }
-
-    private function updateCountTickets(CreateTicketCommand $createTicketCommand): void
-    {
-        $entityManager = $this->registry->getManager();
-
-        $product = $entityManager->getRepository(FilmSession::class)->find($createTicketCommand->filmSession->getFilmSessionId());
-
-        $product->setCountTickets();
-
-        $entityManager->flush();
-    }
 }
