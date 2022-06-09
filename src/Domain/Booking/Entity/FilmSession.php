@@ -4,9 +4,9 @@ namespace App\Domain\Booking\Entity;
 
 use App\Domain\Booking\Entity\ValueObject\Film;
 use App\Domain\Booking\Repository\DoctrineFilmSessionRepository;
-use App\Domain\Services\UuidService;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: DoctrineFilmSessionRepository::class)]
 #[ORM\Table(name: 'film_sessions')]
@@ -14,7 +14,7 @@ final class FilmSession
 {
     #[ORM\Column(type: 'uuid')]
     #[ORM\Id]
-    private string $id;
+    private Uuid $id;
 
     #[ORM\Embedded(class: Film::class)]
     private readonly Film $film;
@@ -37,11 +37,12 @@ final class FilmSession
      * @throws \Exception
      */
     public function __construct(
+        Uuid $id,
         Film $film,
         \DateTimeInterface $dateTimeStartFilmSession,
         int $ticketsCount,
     ) {
-        $this->id = UuidService::generate();
+        $this->id = $id;
         $this->film = $film;
         $this->dateTimeStartFilmSession = $dateTimeStartFilmSession;
         $this->ticketsCount = $ticketsCount;

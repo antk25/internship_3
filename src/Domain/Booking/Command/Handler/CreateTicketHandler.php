@@ -8,6 +8,7 @@ use App\Domain\Booking\Entity\Ticket;
 use App\Domain\Booking\Repository\TicketRepositoryInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+use Symfony\Component\Uid\Uuid;
 
 #[AsMessageHandler]
 final class CreateTicketHandler
@@ -36,7 +37,7 @@ final class CreateTicketHandler
 
     private function bookTicket(CreateTicketCommand $createTicketCommand): Ticket
     {
-        return new Ticket($createTicketCommand->client, $createTicketCommand->filmSession);
+        return new Ticket(Uuid::v4(), $createTicketCommand->client, $createTicketCommand->filmSession);
     }
 
     private function updateCountTickets(CreateTicketCommand $createTicketCommand): void
