@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Booking\Domain\Repository;
+namespace App\Domain\Booking\Repository;
 
-use App\Booking\Domain\Entity\Ticket;
+use App\Domain\Booking\Entity\Ticket;
 
 interface TicketRepositoryInterface
 {

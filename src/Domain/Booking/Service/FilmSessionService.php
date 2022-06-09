@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Booking\Domain\Service;
+namespace App\Domain\Booking\Service;
 
-use App\Booking\Domain\Entity\FilmSession;
-use App\Booking\Domain\Entity\ValueObject\Film;
-use App\Booking\Domain\TransferObject\FilmSessionDto;
+use App\Domain\Booking\Entity\FilmSession;
+use App\Domain\Booking\Entity\ValueObject\Film;
+use App\Domain\Booking\TransferObject\FilmSessionDto;
 
 final class FilmSessionService
 {

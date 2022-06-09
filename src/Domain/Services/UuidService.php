@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Booking\Services;
+namespace App\Domain\Services;
 
 use Symfony\Component\Uid\Uuid;
 

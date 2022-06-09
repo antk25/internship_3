@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Booking\Domain\TransferObject;
+namespace App\Domain\Booking\TransferObject;
 
 use Symfony\Component\Validator\Constraints as Assert;
 

@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Repository;
+namespace App\Domain\Booking\Repository;
 
-use App\Booking\Domain\Entity\FilmSession;
-use App\Booking\Domain\Repository\FilmSessionRepositoryInterface;
+use App\Domain\Booking\Entity\FilmSession;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-final class FilmSessionRepository extends ServiceEntityRepository implements FilmSessionRepositoryInterface
+final class DoctrineFilmSessionRepository extends ServiceEntityRepository implements FilmSessionRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

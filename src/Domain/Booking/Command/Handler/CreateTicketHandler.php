@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Booking\Domain\Command\Handler;
+namespace App\Domain\Booking\Command\Handler;
 
-use App\Booking\Domain\Command\CreateTicketCommand;
-use App\Booking\Domain\Entity\FilmSession;
-use App\Booking\Domain\Entity\Ticket;
-use App\Booking\Domain\Repository\TicketRepositoryInterface;
+use App\Domain\Booking\Command\CreateTicketCommand;
+use App\Domain\Booking\Entity\FilmSession;
+use App\Domain\Booking\Entity\Ticket;
+use App\Domain\Booking\Repository\TicketRepositoryInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 

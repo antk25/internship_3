@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Booking\Domain\Entity;
+namespace App\Domain\Booking\Entity;
 
-use App\Booking\Domain\Entity\ValueObject\Client;
-use App\Booking\Services\UuidService;
-use App\Repository\TicketRepository;
+use App\Domain\Booking\Entity\ValueObject\Client;
+use App\Domain\Booking\Repository\DoctrineTicketRepository;
+use App\Domain\Services\UuidService;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: TicketRepository::class)]
+#[ORM\Entity(repositoryClass: DoctrineTicketRepository::class)]
 #[ORM\Table(name: 'tickets')]
 final class Ticket
 {

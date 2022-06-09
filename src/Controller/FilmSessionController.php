@@ -2,12 +2,12 @@
 
 namespace App\Controller;
 
-use App\Booking\Domain\Command\CreateTicketCommand;
-use App\Booking\Domain\Entity\FilmSession;
-use App\Booking\Domain\Entity\ValueObject\Client;
-use App\Booking\Domain\Repository\FilmSessionRepositoryInterface;
-use App\Booking\Domain\TransferObject\NewClientDto;
-use App\Form\NewClientType;
+use App\Domain\Booking\Command\CreateTicketCommand;
+use App\Domain\Booking\Entity\FilmSession;
+use App\Domain\Booking\Entity\ValueObject\Client;
+use App\Domain\Booking\Form\NewClientType;
+use App\Domain\Booking\Repository\FilmSessionRepositoryInterface;
+use App\Domain\Booking\TransferObject\NewClientDto;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

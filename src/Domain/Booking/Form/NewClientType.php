@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Form;
+namespace App\Domain\Booking\Form;
 
-use App\Booking\Domain\TransferObject\NewClientDto;
+use App\Domain\Booking\TransferObject\NewClientDto;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
