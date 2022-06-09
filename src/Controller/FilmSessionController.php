@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Booking\Domain\Command\CreateTicketCommand;
+use App\Booking\Domain\Entity\FilmSession;
 use App\Booking\Domain\Entity\ValueObject\Client;
 use App\Booking\Domain\Repository\FilmSessionRepositoryInterface;
 use App\Booking\Domain\TransferObject\NewClientDto;
@@ -15,10 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 final class FilmSessionController extends AbstractController
 {
-    /**
-     * @throws \Exception
-     */
-    #[Route('/films', name: 'film_sessions')]
+    #[Route('/film-sessions', name: 'film_sessions')]
     public function index(FilmSessionRepositoryInterface $filmSessionRepository): Response
     {
         return $this->render('film_session/index.html.twig', [
@@ -29,7 +27,7 @@ final class FilmSessionController extends AbstractController
     /**
      * @throws \Exception
      */
-    #[Route('film/session/{id}', name: 'film_session')]
+    #[Route('/film-sessions/{id}', name: 'film_session')]
     public function show(
         Request $request,
         FilmSessionRepositoryInterface $filmSessionRepository,
@@ -41,8 +39,6 @@ final class FilmSessionController extends AbstractController
         $form = $this->createForm(NewClientType::class, $clientDto);
 
         $form->handleRequest($request);
-
-        $filmSession = $filmSessionRepository->getById($id);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $client = new Client($clientDto->name, $clientDto->phone);
