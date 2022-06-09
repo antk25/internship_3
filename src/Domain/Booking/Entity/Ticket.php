@@ -4,8 +4,8 @@ namespace App\Domain\Booking\Entity;
 
 use App\Domain\Booking\Entity\ValueObject\Client;
 use App\Domain\Booking\Repository\DoctrineTicketRepository;
-use App\Domain\Services\UuidService;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: DoctrineTicketRepository::class)]
 #[ORM\Table(name: 'tickets')]
@@ -13,7 +13,7 @@ final class Ticket
 {
     #[ORM\Column(type: 'uuid', unique: true)]
     #[ORM\Id]
-    private string $id;
+    private Uuid $id;
 
     #[ORM\Embedded(class: Client::class, columnPrefix: 'client_')]
     private Client $client;
@@ -23,10 +23,11 @@ final class Ticket
     private FilmSession $filmSession;
 
     public function __construct(
+        Uuid $id,
         Client $client,
         FilmSession $filmSession,
     ) {
-        $this->id = UuidService::generate();
+        $this->id = $id;
         $this->client = $client;
         $this->filmSession = $filmSession;
     }
