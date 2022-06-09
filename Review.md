@@ -15,7 +15,6 @@ src
 |   +-- Kernel.php
 templates
 </pre>
-Это позволит легко добавлять в про
 - [ ] FilmSessionController:19 При получении методами контроллера исключений приложение будет возвращать 500 ошибку, хочется видеть перехват и ошибку 404 (NotFoundHttpException)
 - [ ] FilmSessionController:21 В маршрутах не очень удачно стыкуются данные '/films', name: 'film_sessions. Предлагаю привести к одному смыслу, - фильмы или сеансы.
 - [ ] FilmSessionController:36 У symfony, есть конвертер параметров. Предлагаю ознакомиться и переделать https://symfony.com/doc/current/routing.html#parameter-conversion
@@ -45,7 +44,8 @@ interface FilmSessionRepositoryInterface
 |   |   +-- CreateTicketHandler.php
 |   +-- CreateTicketCommand.php
 </pre>
-- [ ] CreateTicketHandler:16 дурной тон использовать ManagerRegistry в handler, этого необходимо избегать использовать исключительно репозитории по возможности в конструкторе.
+- [ ] CreateTicketHandler:16 дурной тон использовать ManagerRegistry в handler, этого необходимо избегать использовать исключительно репозитории по возможности в конструкторе. 
+Думаю что для этого handler-а будет лучше написать отдельный репозиторий FilmSessionRepository 
 - [ ] CreateTicketHandler в целом при разработке handler-a было произведено большое количество изменений в логике домена которых не должно быть:
 1) checkTicketsAvail() - стал публичным, не думаю что это хорошая затея.
 2) $ticket = $this->bookTicket($createTicketCommand); - Бронирование билета стало создавать билет.
@@ -58,3 +58,4 @@ interface FilmSessionRepositoryInterface
 - [ ] После внедрения доктрины в классы Film, FilmSession мы по сути храним в двух форматах одни и те же данные: $filmLength, $timeEndFilmSession. Думаю, что $timeEndFilmSession избыточен и его вполне нормально рассчитывать.
 - [ ] В README.md в 5п.п. мне, как разработчику предлагается "Запустите команду `composer install`" эта операция происходит за рамками контейнера, предлагаю это улучшить и выполнять composer install в контейнере resolventa_backend_internship_php-fpm_1
 - [ ] в конфиге doctrine.yaml фигурирует `alias: App` для домена. Мы обычно в качестве alias задаем название домена в данном случае `alias: Booking` 
+- [ ] предлагаю разбить фикстуру на 3 независимые.
