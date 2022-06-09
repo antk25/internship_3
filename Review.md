@@ -1,0 +1,60 @@
+Результаты ревью:
+
+- [ ] Я предлагаю структуру папок привести к следующему виду
+<pre>
+src
++-- Controller
++-- DataFixtures
++-- Domain
+|   +-- Booking
+|   |   +-- Collection
+|   |   +-- Command
+|   |   +-- Entity
+|   |   +-- Form
+|   |   +-- Repository
+|   +-- Kernel.php
+templates
+</pre>
+Это позволит легко добавлять в про
+- [ ] FilmSessionController:19 При получении методами контроллера исключений приложение будет возвращать 500 ошибку, хочется видеть перехват и ошибку 404 (NotFoundHttpException)
+- [ ] FilmSessionController:21 В маршрутах не очень удачно стыкуются данные '/films', name: 'film_sessions. Предлагаю привести к одному смыслу, - фильмы или сеансы.
+- [ ] FilmSessionController:36 У symfony, есть конвертер параметров. Предлагаю ознакомиться и переделать https://symfony.com/doc/current/routing.html#parameter-conversion
+- [ ] FilmSessionController:37 имя $bus не отражает суть. Лучше будет переименовать в $messageBus.
+- [ ] FilmSessionController:39 Команда CreateTicketCommand после рефакторинга станет простой структурой данных. Можно ее инициализировать и передать в форму, для наполнения.
+- [ ] FilmSessionController:35 FilmSessionRepository в домене видел FilmSessionRepositoryInterface. Судя по всему план был его использовать в контроллере. Сейчас выглядит странно выделение интерфейса и не использование его.
+- [ ] FilmSessionController:48 Предлагаю унести на слой инфраструктуры(в handler) функционал создания клиента.
+- [ ] FilmSessionRepository предлагаю унести в домен. Так у нас принято делать в проектах.
+- [ ] FilmSessionRepositoryInterface не очень удачное именование методов. Лучше переименовать в findById и save. Чаще всего именно такое именование можно встретить на проектах у нас в компании
+```phpt
+interface FilmSessionRepositoryInterface
+{
+    public function findById(string $id): ?FilmSession;
+    public function save(FilmSession $filmSession): void;
+}
+```
+- [ ] index.html.twig:17 лишний перенос и в строке 22 опечатка
+- [ ] index.html.twig при использовании twig можно обращаться к entity так: Можно сделать так: <li>Дата сеанса: {{ filmSession.dateTimeStartFilmSession|date('Y.m.d') }}</li>
+- [ ] show.html.twig:15 отсутствует отступ.
+- [ ] Имя для CreateTicketCommand выбрано неудачно, вводит в заблуждение. По факту команда не "создает билет", а бронирует место. Предлагаю переименовать.
+- [ ] CreateTicketCommand - Для создания билета тебе необходимы только "сеанс", "имя" и "номер" клиента.
+- [ ] После рефакторинга, в команде CreateTicketCommand останутся "простые" данные, которые легко будет валидировать перед выполнением операции.
+- [ ] Все handler-ы мы обычно уносим в подпапку, например:
+<pre>
++-- Command
+|   +-- Handler
+|   |   +-- CreateTicketHandler.php
+|   +-- CreateTicketCommand.php
+</pre>
+- [ ] CreateTicketHandler:16 дурной тон использовать ManagerRegistry в handler, этого необходимо избегать использовать исключительно репозитории по возможности в конструкторе.
+- [ ] CreateTicketHandler в целом при разработке handler-a было произведено большое количество изменений в логике домена которых не должно быть:
+1) checkTicketsAvail() - стал публичным, не думаю что это хорошая затея.
+2) $ticket = $this->bookTicket($createTicketCommand); - Бронирование билета стало создавать билет.
+3) private function updateCountTickets(CreateTicketCommand $createTicketCommand): void - очень странный метод. Который стал результатом серьезных ухудшений в рамках сущности.
+- [ ] NewClientType - предлагаю унести в соответствии с вышеупомянутой структурой, подумать над именованием, добавить для обязательных полей required.
+- [ ] Не понимаю какую проблему решает UuidService с точки зрения архитектуры. В любом случа Entity о сервисе знать не должны, т.е. UuidService::generate() должно выполняться на уровне инфраструктуры.
+- [ ] В Client есть 2 метода, которые похоже не используются getName(), getPhone()
+- [ ] FilmSession в целом все изменения методов сущности, ухудшили его использование. Предлагаю вернуться к изначальной версии, за исключением описания аттрибутов доктрины и добавления id в конструктор.
+- [ ] Film::filmLength напрашивается на изменение формата внутри домена. Предлагаю как прием, так и возврат значения привести к одному виду в рамках этого класса. 
+- [ ] После внедрения доктрины в классы Film, FilmSession мы по сути храним в двух форматах одни и те же данные: $filmLength, $timeEndFilmSession. Думаю, что $timeEndFilmSession избыточен и его вполне нормально рассчитывать.
+- [ ] В README.md в 5п.п. мне, как разработчику предлагается "Запустите команду `composer install`" эта операция происходит за рамками контейнера, предлагаю это улучшить и выполнять composer install в контейнере resolventa_backend_internship_php-fpm_1
+- [ ] в конфиге doctrine.yaml фигурирует `alias: App` для домена. Мы обычно в качестве alias задаем название домена в данном случае `alias: Booking` 
