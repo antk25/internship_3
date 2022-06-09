@@ -2,7 +2,7 @@
 
 namespace App\Domain\Booking\Form;
 
-use App\Domain\Booking\TransferObject\NewClientDto;
+use App\Domain\Booking\Command\CreateTicketCommand;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -26,7 +26,7 @@ final class NewClientType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => NewClientDto::class,
+            'data_class' => CreateTicketCommand::class,
         ]);
     }
 }

@@ -4,10 +4,8 @@ namespace App\Controller;
 
 use App\Domain\Booking\Command\CreateTicketCommand;
 use App\Domain\Booking\Entity\FilmSession;
-use App\Domain\Booking\Entity\ValueObject\Client;
 use App\Domain\Booking\Form\NewClientType;
 use App\Domain\Booking\Repository\FilmSessionRepositoryInterface;
-use App\Domain\Booking\TransferObject\NewClientDto;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,15 +33,15 @@ final class FilmSessionController extends AbstractController
         FilmSession $filmSession,
         MessageBusInterface $messageBus,
     ): Response {
-        $clientDto = new NewClientDto();
+        $createTicketCommand = new CreateTicketCommand($filmSession);
 
-        $form = $this->createForm(NewClientType::class, $clientDto);
+        $form = $this->createForm(NewClientType::class, $createTicketCommand);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $client = new Client($clientDto->name, $clientDto->phone);
-            $messageBus->dispatch(new CreateTicketCommand($filmSession, $client));
+
+            $messageBus->dispatch($createTicketCommand);
 
             return $this->redirectToRoute('film_sessions');
         }
