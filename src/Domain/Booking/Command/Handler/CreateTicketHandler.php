@@ -24,9 +24,7 @@ final class CreateTicketHandler
      */
     public function __invoke(CreateTicketCommand $createTicketCommand): void
     {
-        if ($createTicketCommand->filmSession->checkTicketsAvail()) {
-            throw new \Exception('No more tickets');
-        }
+        $client = new Client($createTicketCommand->name, $createTicketCommand->phone);
 
         $ticket = $this->bookTicket($createTicketCommand);
 
