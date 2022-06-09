@@ -14,17 +14,16 @@
         <h1>Список сеансов</h1>
 
         {% for filmSession in filmSessions %}
-
             <div class="film-container">
                 <h2>{{ filmSession.getFilmName }}</h2>
                 <ul>
-                    <li>Дата сеанса: {{ filmSession.getDateTimeStartFilmSession|date('Y.m.d') }}</li>
-                    <li>Вермя начала: {{ filmSession.getDateTimeStartFilmSession|date('H:i') }}</li>
-                    <li>Время окончания: {{ filmSession.getDateTimeEndFilmSession|date('H:i') }}</li>
-                    <li>Кол-во свободных мест: {{ filmSession.getCountOfTicketsAvailable }}</li>
+                    <li>Дата сеанса: {{ filmSession.dateTimeStartFilmSession|date('Y.m.d') }}</li>
+                    <li>Время начала: {{ filmSession.dateTimeStartFilmSession|date('H:i') }}</li>
+                    <li>Время окончания: {{ filmSession.dateTimeEndFilmSession|date('H:i') }}</li>
+                    <li>Кол-во свободных мест: {{ filmSession.countOfTicketsAvailable }}</li>
                 </ul>
 
-                <a href="{{ path('film_session', { id: filmSession.getFilmSessionId }) }}"><button class="button">Выбрать</button></a>
+                <a href="{{ path('film_session', { id: filmSession.filmSessionId }) }}"><button class="button">Выбрать</button></a>
 
             </div>
         {% endfor %}
