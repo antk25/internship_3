@@ -2,8 +2,8 @@
 
 namespace App\DataFixtures;
 
-use App\Booking\Domain\Factory\CreateFilmSessionDtoFactory;
-use App\Booking\Domain\Service\FilmSessionService;
+use App\Domain\Booking\Factory\CreateFilmSessionDtoFactory;
+use App\Domain\Booking\Service\FilmSessionService;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 

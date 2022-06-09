@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Booking\Domain\Command;
+namespace App\Domain\Booking\Command;
 
-use App\Booking\Domain\Entity\FilmSession;
-use App\Booking\Domain\Entity\ValueObject\Client;
+use App\Domain\Booking\Entity\FilmSession;
+use App\Domain\Booking\Entity\ValueObject\Client;
 
 final class CreateTicketCommand
 {

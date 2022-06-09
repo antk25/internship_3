@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Booking\Domain\Factory;
+namespace App\Domain\Booking\Factory;
 
-use App\Booking\Domain\TransferObject\FilmSessionDto;
+use App\Domain\Booking\TransferObject\FilmSessionDto;
 
 final class CreateFilmSessionDtoFactory
 {

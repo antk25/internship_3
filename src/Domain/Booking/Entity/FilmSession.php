@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Booking\Domain\Entity;
+namespace App\Domain\Booking\Entity;
 
-use App\Booking\Domain\Entity\ValueObject\Film;
-use App\Booking\Services\UuidService;
-use App\Repository\FilmSessionRepository;
+use App\Domain\Booking\Entity\ValueObject\Film;
+use App\Domain\Booking\Repository\DoctrineFilmSessionRepository;
+use App\Domain\Services\UuidService;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: FilmSessionRepository::class)]
+#[ORM\Entity(repositoryClass: DoctrineFilmSessionRepository::class)]
 #[ORM\Table(name: 'film_sessions')]
 final class FilmSession
 {

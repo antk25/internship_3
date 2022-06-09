@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Repository;
+namespace App\Domain\Booking\Repository;
 
-use App\Booking\Domain\Entity\Ticket;
-use App\Booking\Domain\Repository\TicketRepositoryInterface;
+use App\Domain\Booking\Entity\Ticket;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-final class TicketRepository extends ServiceEntityRepository implements TicketRepositoryInterface
+final class DoctrineTicketRepository extends ServiceEntityRepository implements TicketRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
