@@ -23,7 +23,7 @@ templates
 - [x] FilmSessionController:35 FilmSessionRepository в домене видел FilmSessionRepositoryInterface. Судя по всему план был его использовать в контроллере. Сейчас выглядит странно выделение интерфейса и не использование его.
 - [ ] FilmSessionController:48 Предлагаю унести на слой инфраструктуры(в handler) функционал создания клиента.
 - [ ] FilmSessionRepository предлагаю унести в домен. Так у нас принято делать в проектах.
-- [ ] FilmSessionRepositoryInterface не очень удачное именование методов. Лучше переименовать в findById и save. Чаще всего именно такое именование можно встретить на проектах у нас в компании
+- [x] FilmSessionRepositoryInterface не очень удачное именование методов. Лучше переименовать в findById и save. Чаще всего именно такое именование можно встретить на проектах у нас в компании
 ```php
 interface FilmSessionRepositoryInterface
 {

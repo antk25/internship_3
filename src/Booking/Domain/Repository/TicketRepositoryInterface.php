@@ -6,7 +6,7 @@ use App\Booking\Domain\Entity\Ticket;
 
 interface TicketRepositoryInterface
 {
-    public function getById(string $id): Ticket;
+    public function findById(string $id): Ticket;
 
-    public function add(Ticket $ticket): void;
+    public function save(Ticket $ticket): void;
 }
