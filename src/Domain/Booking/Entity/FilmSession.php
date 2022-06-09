@@ -47,6 +47,7 @@ final class FilmSession
         $this->dateTimeStartFilmSession = $dateTimeStartFilmSession;
         $this->ticketsCount = $ticketsCount;
         $this->timeEndFilmSession = $this->calcTimeEndFilmSession();
+        $this->tickets = new ArrayCollection();
     }
 
     public function getCountOfTicketsAvailable(): int
@@ -93,6 +94,11 @@ final class FilmSession
     public function getFilmSessionId(): string
     {
         return $this->id;
+    }
+
+    public function getTickets(): Collection
+    {
+        return $this->tickets;
     }
 
     /**
