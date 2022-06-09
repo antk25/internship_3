@@ -33,7 +33,7 @@ final class FilmSessionController extends AbstractController
     public function show(
         Request $request,
         FilmSession $filmSession,
-        MessageBusInterface $bus,
+        MessageBusInterface $messageBus,
     ): Response {
         $clientDto = new NewClientDto();
 
@@ -43,7 +43,7 @@ final class FilmSessionController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $client = new Client($clientDto->name, $clientDto->phone);
-            $bus->dispatch(new CreateTicketCommand($filmSession, $client));
+            $messageBus->dispatch(new CreateTicketCommand($filmSession, $client));
 
             return $this->redirectToRoute('film_sessions');
         }
