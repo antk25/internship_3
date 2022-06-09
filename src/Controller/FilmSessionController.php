@@ -19,8 +19,10 @@ final class FilmSessionController extends AbstractController
     #[Route('/film-sessions', name: 'film_sessions')]
     public function index(FilmSessionRepositoryInterface $filmSessionRepository): Response
     {
+        $filmSessions = $filmSessionRepository->findAll();
+
         return $this->render('film_session/index.html.twig', [
-            'filmSessions' => $filmSessionRepository->findAll(),
+            'filmSessions' => $filmSessions,
         ]);
     }
 
@@ -30,8 +32,7 @@ final class FilmSessionController extends AbstractController
     #[Route('/film-sessions/{id}', name: 'film_session')]
     public function show(
         Request $request,
-        FilmSessionRepositoryInterface $filmSessionRepository,
-        string $id,
+        FilmSession $filmSession,
         MessageBusInterface $bus,
     ): Response {
         $clientDto = new NewClientDto();
