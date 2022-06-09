@@ -11,6 +11,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class NewClientType extends AbstractType
 {
+    /**
+     * @phpcsSuppress SlevomatCodingStandard.Functions.options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
