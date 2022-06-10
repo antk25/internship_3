@@ -32,14 +32,6 @@ final class Film
      */
     public function getFilmLength(): \DateInterval
     {
-        return self::filmLengthInDateInterval($this->filmLength);
-    }
-
-    /**
-     * @throws \Exception
-     */
-    private static function filmLengthInDateInterval(int $filmLength): \DateInterval
-    {
-        return \DateInterval::createFromDateString($filmLength . 'minutes');
+        return $this->filmLength;
     }
 }
