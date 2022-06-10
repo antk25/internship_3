@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Domain\Booking\Command\CreateTicketCommand;
+use App\Domain\Booking\Command\BookTicketCommand;
 use App\Domain\Booking\Entity\FilmSession;
 use App\Domain\Booking\Form\NewClientType;
 use App\Domain\Booking\Repository\FilmSessionRepositoryInterface;
@@ -33,15 +33,14 @@ final class FilmSessionController extends AbstractController
         FilmSession $filmSession,
         MessageBusInterface $messageBus,
     ): Response {
-        $createTicketCommand = new CreateTicketCommand($filmSession);
+        $bookTicketCommand = new BookTicketCommand($filmSession);
 
-        $form = $this->createForm(NewClientType::class, $createTicketCommand);
+        $form = $this->createForm(NewClientType::class, $bookTicketCommand);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $messageBus->dispatch($createTicketCommand);
+            $messageBus->dispatch($bookTicketCommand);
 
             return $this->redirectToRoute('film_sessions');
         }

@@ -4,7 +4,7 @@ namespace App\Domain\Booking\Command;
 
 use App\Domain\Booking\Entity\FilmSession;
 
-final class CreateTicketCommand
+final class BookTicketCommand
 {
     public string $name;
     public int $phone;
