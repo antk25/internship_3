@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Domain\Booking\Command\BookTicketCommand;
 use App\Domain\Booking\Entity\FilmSession;
-use App\Domain\Booking\Form\NewClientType;
+use App\Domain\Booking\Form\BookTicketType;
 use App\Domain\Booking\Repository\FilmSessionRepositoryInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,7 +35,7 @@ final class FilmSessionController extends AbstractController
     ): Response {
         $bookTicketCommand = new BookTicketCommand($filmSession);
 
-        $form = $this->createForm(NewClientType::class, $bookTicketCommand);
+        $form = $this->createForm(BookTicketType::class, $bookTicketCommand);
 
         $form->handleRequest($request);
 
