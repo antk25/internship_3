@@ -2,10 +2,12 @@
 
 namespace App\DataFixtures;
 
-use App\Domain\Booking\Factory\CreateFilmSessionDtoFactory;
-use App\Domain\Booking\Service\FilmSessionService;
+use App\Domain\Booking\Entity\FilmSession;
+use App\Domain\Booking\Entity\ValueObject\Film;
+use App\Domain\Booking\TransferObject\FilmSessionDto;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\Uid\Uuid;
 
 final class AvatarFilmSessionFixtures extends Fixture
 {
@@ -21,12 +23,15 @@ final class AvatarFilmSessionFixtures extends Fixture
             'numberOfSeats' => 25,
         ];
 
-        $dtoFilmSessionFactory = new CreateFilmSessionDtoFactory();
-        $filmSessionService = new FilmSessionService();
+        $filmSessionDto = new FilmSessionDto();
+        $filmSessionDto = $filmSessionDto->createFromArray($filmSession);
 
-        $dtoFilmSession = $dtoFilmSessionFactory->createFromArray($filmSession);
-
-        $filmSession = $filmSessionService->createFilmSession($dtoFilmSession);
+        $filmSession = new FilmSession(
+            Uuid::v4(),
+            new Film($filmSessionDto->filmName, \DateInterval::createFromDateString($filmSessionDto->filmLength . 'minutes')),
+            date_create_immutable($filmSessionDto->dateTimeStartFilmSession),
+            $filmSessionDto->ticketsCount,
+        );
 
         $manager->persist($filmSession);
 
