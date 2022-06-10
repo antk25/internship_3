@@ -18,7 +18,7 @@ final class FilmSessionService
     {
         return new FilmSession(
             Uuid::v4(),
-            new Film($filmSessionDto->filmName, $filmSessionDto->filmLength),
+            new Film($filmSessionDto->filmName, \DateInterval::createFromDateString($filmSessionDto->filmLength . 'minutes')),
             date_create_immutable($filmSessionDto->dateTimeStartFilmSession),
             $filmSessionDto->ticketsCount,
         );
