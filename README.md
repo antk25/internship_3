@@ -5,6 +5,6 @@
 3. Скопируйте файл `.env.example` в `.env` командой `cp .env.example .env`
 4. Запустите docker контейнеры командой `docker-compose up -d --build`
 5. Вернитесь в рабочую директорию `cd ..`
-6. Запустите команду `composer install`
+6. Запустите команду `docker exec -it resolventa_backend_internship_php-fpm_1 bash composer install`
 7. Установите миграции и фикстуры командой `docker exec -it resolventa_backend_internship_php-fpm_1 bash install/migrations.sh`
 8. Перейдите на [страницу списка сеансов](http://localhost/films)
