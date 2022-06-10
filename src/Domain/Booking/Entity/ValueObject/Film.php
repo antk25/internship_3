@@ -10,13 +10,13 @@ final class Film
     #[ORM\Column(type: 'string')]
     private string $filmName;
 
-    #[ORM\Column(type: 'integer')]
-    private int $filmLength;
+    #[ORM\Column(type: 'film_length')]
+    private \DateInterval $filmLength;
 
     /**
      * @throws \Exception
      */
-    public function __construct(string $filmName, int $filmLength)
+    public function __construct(string $filmName, \DateInterval $filmLength)
     {
         $this->filmName = $filmName;
         $this->filmLength = $filmLength;
