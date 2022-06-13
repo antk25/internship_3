@@ -13,14 +13,14 @@ final class DoctrineTicketRepository extends ServiceEntityRepository implements 
         parent::__construct($registry, Ticket::class);
     }
 
+    public function findById(string $id): Ticket
+    {
+        return $this->find($id);
+    }
+
     public function save(Ticket $ticket): void
     {
         $this->_em->persist($ticket);
         $this->_em->flush();
-    }
-
-    public function findById(string $id): Ticket
-    {
-        return $this->find($id);
     }
 }
