@@ -11,9 +11,6 @@ use Symfony\Component\Uid\Uuid;
 
 final class AvatarFilmSessionFixtures extends Fixture
 {
-    /**
-     * @throws \Exception
-     */
     public function load(ObjectManager $manager): void
     {
         $filmSession = [
