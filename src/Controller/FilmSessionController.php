@@ -24,9 +24,6 @@ final class FilmSessionController extends AbstractController
         ]);
     }
 
-    /**
-     * @throws \Exception
-     */
     #[Route('/film-sessions/{id}', name: 'film_session')]
     public function show(
         Request $request,
