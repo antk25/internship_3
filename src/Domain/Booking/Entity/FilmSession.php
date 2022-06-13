@@ -27,9 +27,6 @@ final class FilmSession
     #[ORM\Column(name: 'tickets_count', type: 'integer')]
     private int $ticketsCount;
 
-    #[ORM\Column(name: 'date_time_end', type: 'datetime_immutable')]
-    private \DateTimeInterface $timeEndFilmSession;
-
     #[ORM\OneToMany(mappedBy: 'filmSession', targetEntity: Ticket::class, cascade: ['persist'], orphanRemoval: true)]
     private Collection $tickets;
 
@@ -46,7 +43,6 @@ final class FilmSession
         $this->film = $film;
         $this->dateTimeStartFilmSession = $dateTimeStartFilmSession;
         $this->ticketsCount = $ticketsCount;
-        $this->timeEndFilmSession = $this->calcTimeEndFilmSession();
         $this->tickets = new ArrayCollection();
     }
 
@@ -100,15 +96,15 @@ final class FilmSession
         return $this->tickets;
     }
 
-    private function checkTicketsAvail(): bool
-    {
-        return $this->ticketsCount <= 0;
-    }
-
-    private function calcTimeEndFilmSession(): \DateTimeImmutable
+    public function calcTimeEndFilmSession(): \DateTimeInterface
     {
         $timeStart = $this->dateTimeStartFilmSession;
 
-        return $timeStart->add($this->film->getFilmLength());
+        return $timeStart->add($this->film->getDuration());
+    }
+
+    private function checkTicketsAvail(): bool
+    {
+        return $this->ticketsCount <= 0;
     }
 }

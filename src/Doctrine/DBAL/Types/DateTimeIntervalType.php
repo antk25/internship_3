@@ -7,7 +7,7 @@ use Doctrine\DBAL\Types\IntegerType;
 
 final class DateTimeIntervalType extends IntegerType
 {
-    public const NAME = 'film_length';
+    public const NAME = 'film_duration';
 
     /**
      * @phpcsSuppress SlevomatCodingStandard.Functions.UnusedParameter
