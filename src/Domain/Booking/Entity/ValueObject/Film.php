@@ -13,9 +13,6 @@ final class Film
     #[ORM\Column(type: 'film_length')]
     private \DateInterval $filmLength;
 
-    /**
-     * @throws \Exception
-     */
     public function __construct(string $filmName, \DateInterval $filmLength)
     {
         $this->filmName = $filmName;
@@ -27,9 +24,6 @@ final class Film
         return $this->filmName;
     }
 
-    /**
-     * @throws \Exception
-     */
     public function getFilmLength(): \DateInterval
     {
         return $this->filmLength;

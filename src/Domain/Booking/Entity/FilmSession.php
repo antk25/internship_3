@@ -35,8 +35,6 @@ final class FilmSession
 
     /**
      * @param mixed $ticketsCount
-     *
-     * @throws \Exception
      */
     public function __construct(
         Uuid $id,
@@ -105,9 +103,6 @@ final class FilmSession
         return $this->film->getFilmName();
     }
 
-    /**
-     * @throws \Exception
-     */
     public function getFilmLength(): \DateInterval
     {
         return $this->film->getFilmLength();
@@ -123,9 +118,6 @@ final class FilmSession
         return $this->tickets;
     }
 
-    /**
-     * @throws \Exception
-     */
     private function calcTimeEndFilmSession(): \DateTimeImmutable
     {
         $timeStart = $this->dateTimeStartFilmSession;
