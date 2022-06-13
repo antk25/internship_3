@@ -15,7 +15,7 @@
         <li>Продолжительность сеанса: {{ filmSession.filmDuration|date('%i минут') }}</li>
         <li>Дата сеанса: {{ filmSession.dateTimeStartFilmSession|date('Y.m.d') }}</li>
         <li>Вермя начала: {{ filmSession.dateTimeStartFilmSession|date('H:i') }}</li>
-        <li>Время окончания: {{ filmSession.dateTimeEndFilmSession|date('H:i') }}</li>
+        <li>Время окончания: {{ filmSession.calcTimeEndFilmSession|date('H:i') }}</li>
         <li>Кол-во свободных мест: {{ filmSession.countOfTicketsAvailable }}</li>
     </ul>
 
