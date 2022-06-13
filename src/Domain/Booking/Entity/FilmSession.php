@@ -75,19 +75,6 @@ final class FilmSession
         return $this->ticketsCount;
     }
 
-    public function setCountTickets(): void
-    {
-        $this->ticketsCount -= 1;
-    }
-
-    public function checkTicketsAvail(): bool
-    {
-        return $this->ticketsCount <= 0;
-    }
-
-    /**
-     * @throws \Exception
-     */
     public function getDateTimeStartFilmSession(): \DateTimeInterface
     {
         return $this->dateTimeStartFilmSession;
@@ -116,6 +103,11 @@ final class FilmSession
     public function getTickets(): Collection
     {
         return $this->tickets;
+    }
+
+    private function checkTicketsAvail(): bool
+    {
+        return $this->ticketsCount <= 0;
     }
 
     private function calcTimeEndFilmSession(): \DateTimeImmutable
