@@ -6,8 +6,8 @@ use phpDocumentor\Reflection\Type;
 
 final class FilmSessionDto
 {
-    public string $filmName;
-    public int $filmLength;
+    public string $filmTitle;
+    public int $filmDuration;
     public string $dateTimeStartFilmSession;
     public int $ticketsCount;
 
@@ -18,8 +18,8 @@ final class FilmSessionDto
     {
         $dto = new self();
 
-        $dto->filmName = $data['film'];
-        $dto->filmLength = $data['filmLength'];
+        $dto->filmTitle = $data['film'];
+        $dto->filmDuration = $data['filmDuration'];
         $dto->dateTimeStartFilmSession = $data['dateTimeStart'];
         $dto->ticketsCount = $data['numberOfSeats'];
 

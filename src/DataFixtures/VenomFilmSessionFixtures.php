@@ -15,7 +15,7 @@ final class VenomFilmSessionFixtures extends Fixture
     {
         $filmSession = [
             'film' => 'Веном',
-            'filmLength' => 110,
+            'filmDuration' => 110,
             'dateTimeStart' => '22.06.2022 20:15',
             'numberOfSeats' => 10,
         ];
@@ -25,7 +25,10 @@ final class VenomFilmSessionFixtures extends Fixture
 
         $filmSession = new FilmSession(
             Uuid::v4(),
-            new Film($filmSessionDto->filmName, \DateInterval::createFromDateString($filmSessionDto->filmLength . 'minutes')),
+            new Film(
+                $filmSessionDto->filmTitle,
+                \DateInterval::createFromDateString($filmSessionDto->filmDuration . 'minutes'),
+            ),
             date_create_immutable($filmSessionDto->dateTimeStartFilmSession),
             $filmSessionDto->ticketsCount,
         );

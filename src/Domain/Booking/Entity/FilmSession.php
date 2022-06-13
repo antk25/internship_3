@@ -18,7 +18,7 @@ final class FilmSession
     #[ORM\Id]
     private Uuid $id;
 
-    #[ORM\Embedded(class: Film::class)]
+    #[ORM\Embedded(class: Film::class, columnPrefix: 'film_')]
     private readonly Film $film;
 
     #[ORM\Column(name: 'date_time_start', type: 'datetime_immutable')]
@@ -80,19 +80,14 @@ final class FilmSession
         return $this->dateTimeStartFilmSession;
     }
 
-    public function getDateTimeEndFilmSession(): \DateTimeImmutable
+    public function getFilmTitle(): string
     {
-        return $this->timeEndFilmSession;
+        return $this->film->getTitle();
     }
 
-    public function getFilmName(): string
+    public function getFilmDuration(): \DateInterval
     {
-        return $this->film->getFilmName();
-    }
-
-    public function getFilmLength(): \DateInterval
-    {
-        return $this->film->getFilmLength();
+        return $this->film->getDuration();
     }
 
     public function getFilmSessionId(): string
