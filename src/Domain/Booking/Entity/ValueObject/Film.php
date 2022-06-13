@@ -8,24 +8,24 @@ use Doctrine\ORM\Mapping as ORM;
 final class Film
 {
     #[ORM\Column(type: 'string')]
-    private string $filmName;
+    private string $title;
 
-    #[ORM\Column(type: 'film_length')]
-    private \DateInterval $filmLength;
+    #[ORM\Column(type: 'film_duration')]
+    private \DateInterval $duration;
 
-    public function __construct(string $filmName, \DateInterval $filmLength)
+    public function __construct(string $title, \DateInterval $duration)
     {
-        $this->filmName = $filmName;
-        $this->filmLength = $filmLength;
+        $this->title = $title;
+        $this->duration = $duration;
     }
 
-    public function getFilmName(): string
+    public function getTitle(): string
     {
-        return $this->filmName;
+        return $this->title;
     }
 
-    public function getFilmLength(): \DateInterval
+    public function getDuration(): \DateInterval
     {
-        return $this->filmLength;
+        return $this->duration;
     }
 }

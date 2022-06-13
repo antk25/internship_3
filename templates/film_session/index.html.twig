@@ -15,7 +15,7 @@
 
         {% for filmSession in filmSessions %}
             <div class="film-container">
-                <h2>{{ filmSession.filmName }}</h2>
+                <h2>{{ filmSession.filmTitle }}</h2>
                 <ul>
                     <li>Дата сеанса: {{ filmSession.dateTimeStartFilmSession|date('Y.m.d') }}</li>
                     <li>Время начала: {{ filmSession.dateTimeStartFilmSession|date('H:i') }}</li>

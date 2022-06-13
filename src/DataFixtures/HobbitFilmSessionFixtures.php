@@ -15,7 +15,7 @@ final class HobbitFilmSessionFixtures extends Fixture
     {
         $filmSession = [
             'film' => 'Хоббит',
-            'filmLength' => 220,
+            'filmDuration' => 220,
             'dateTimeStart' => '22.06.2022 15:30',
             'numberOfSeats' => 15,
         ];
@@ -25,7 +25,10 @@ final class HobbitFilmSessionFixtures extends Fixture
 
         $filmSession = new FilmSession(
             Uuid::v4(),
-            new Film($filmSessionDto->filmName, \DateInterval::createFromDateString($filmSessionDto->filmLength . 'minutes')),
+            new Film(
+                $filmSessionDto->filmTitle,
+                \DateInterval::createFromDateString($filmSessionDto->filmDuration . 'minutes'),
+            ),
             date_create_immutable($filmSessionDto->dateTimeStartFilmSession),
             $filmSessionDto->ticketsCount,
         );
