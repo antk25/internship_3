@@ -7,4 +7,4 @@
 5. Вернитесь в рабочую директорию `cd ..`
 6. Запустите команду `docker exec -it resolventa_backend_internship_php-fpm_1 bash composer install`
 7. Установите миграции и фикстуры командой `docker exec -it resolventa_backend_internship_php-fpm_1 bash install/migrations.sh`
-8. Перейдите на [страницу списка сеансов](http://localhost/films)
+8. Перейдите на [страницу списка сеансов](http://localhost/film-sessions)
