@@ -56,11 +56,8 @@ final class FilmSession
         }
 
         $ticketId = Uuid::v4();
-
         $ticket = new Ticket($ticketId, $client, $this);
-
         $this->tickets->add($ticket);
-
         $this->ticketsCount--;
 
         return $this;
