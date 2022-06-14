@@ -13,11 +13,6 @@ final class DoctrineFilmSessionRepository extends ServiceEntityRepository implem
         parent::__construct($registry, FilmSession::class);
     }
 
-    public function findById(string $id): FilmSession
-    {
-        return $this->find($id);
-    }
-
     public function save(FilmSession $filmSession): void
     {
         $this->_em->persist($filmSession);
