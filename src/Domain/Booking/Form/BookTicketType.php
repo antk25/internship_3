@@ -22,9 +22,11 @@ final class BookTicketType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'label' => 'Имя',
+                'required' => true,
             ])
             ->add('phone', TextType::class, [
                 'label' => 'Телефон',
+                'required' => true,
             ])
             ->add('save', SubmitType::class);
     }
