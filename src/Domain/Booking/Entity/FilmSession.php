@@ -96,7 +96,12 @@ final class FilmSession
         return $this->tickets;
     }
 
-    public function calcTimeEndFilmSession(): \DateTimeInterface
+    public function getFilmEndAt(): \DateTimeInterface
+    {
+        return $this->calculateFilmEndAt();
+    }
+
+    private function calculateFilmEndAt(): \DateTimeInterface
     {
         $timeStart = $this->dateTimeStartFilmSession;
 
