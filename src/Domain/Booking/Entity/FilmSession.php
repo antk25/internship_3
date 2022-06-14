@@ -33,12 +33,8 @@ final class FilmSession
     /**
      * @param mixed $ticketsCount
      */
-    public function __construct(
-        Uuid $id,
-        Film $film,
-        \DateTimeInterface $dateTimeStartFilmSession,
-        int $ticketsCount,
-    ) {
+    public function __construct(Uuid $id, Film $film, \DateTimeInterface $dateTimeStartFilmSession, int $ticketsCount)
+    {
         $this->id = $id;
         $this->film = $film;
         $this->dateTimeStartFilmSession = $dateTimeStartFilmSession;
