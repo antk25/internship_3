@@ -60,7 +60,7 @@ interface FilmSessionRepositoryInterface
 - [x] в конфиге doctrine.yaml фигурирует `alias: App` для домена. Мы обычно в качестве alias задаем название домена в данном случае `alias: Booking` 
 - [x] предлагаю разбить фикстуру на 3 независимые.
 - [x] вернуть валидацию в ValueObjects
-- [ ] FilmSession::calcTimeEndFilmSession() - не удачно именование для метода. По факту метод возвращает время окончание сеанса. Предлагаю оставить логику в этом методе, сделать его приватным переименовав в calculateFilmEndAt, и добавить метод getFilmEndAt()
+- [x] FilmSession::calcTimeEndFilmSession() - не удачно именование для метода. По факту метод возвращает время окончание сеанса. Предлагаю оставить логику в этом методе, сделать его приватным переименовав в calculateFilmEndAt, и добавить метод getFilmEndAt()
 - [ ] В FilmSession::bookTicket переносы кажутся излишними между:
 ```
 $ticketId = Uuid::v4();
