@@ -22,7 +22,7 @@ final class FilmSession
     private readonly Film $film;
 
     #[ORM\Column(name: 'date_time_start', type: 'datetime_immutable')]
-    private readonly \DateTimeInterface $dateTimeStartFilmSession;
+    private readonly \DateTimeInterface $filmStartAt;
 
     #[ORM\Column(name: 'tickets_count', type: 'integer')]
     private int $ticketsCount;
@@ -33,11 +33,11 @@ final class FilmSession
     /**
      * @param mixed $ticketsCount
      */
-    public function __construct(Uuid $id, Film $film, \DateTimeInterface $dateTimeStartFilmSession, int $ticketsCount)
+    public function __construct(Uuid $id, Film $film, \DateTimeInterface $filmStartAt, int $ticketsCount)
     {
         $this->id = $id;
         $this->film = $film;
-        $this->dateTimeStartFilmSession = $dateTimeStartFilmSession;
+        $this->filmStartAt = $filmStartAt;
         $this->ticketsCount = $ticketsCount;
         $this->tickets = new ArrayCollection();
     }
@@ -64,9 +64,9 @@ final class FilmSession
         return $this->ticketsCount;
     }
 
-    public function getDateTimeStartFilmSession(): \DateTimeInterface
+    public function getFilmStartAt(): \DateTimeInterface
     {
-        return $this->dateTimeStartFilmSession;
+        return $this->filmStartAt;
     }
 
     public function getFilmTitle(): string
@@ -96,7 +96,7 @@ final class FilmSession
 
     private function calculateFilmEndAt(): \DateTimeInterface
     {
-        $timeStart = $this->dateTimeStartFilmSession;
+        $timeStart = $this->filmStartAt;
 
         return $timeStart->add($this->film->getDuration());
     }
