@@ -4,7 +4,6 @@ namespace App\DataFixtures;
 
 use App\Domain\Booking\Entity\FilmSession;
 use App\Domain\Booking\Entity\ValueObject\Film;
-use App\Domain\Booking\TransferObject\FilmSessionDto;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Uid\Uuid;
@@ -20,17 +19,14 @@ final class VenomFilmSessionFixtures extends Fixture
             'numberOfSeats' => 10,
         ];
 
-        $filmSessionDto = new FilmSessionDto();
-        $filmSessionDto = $filmSessionDto->createFromArray($filmSession);
-
         $filmSession = new FilmSession(
             Uuid::v4(),
             new Film(
-                $filmSessionDto->filmTitle,
-                \DateInterval::createFromDateString($filmSessionDto->filmDuration . 'minutes'),
+                $filmSession['film'],
+                \DateInterval::createFromDateString($filmSession['filmDuration'] . 'minutes'),
             ),
-            date_create_immutable($filmSessionDto->dateTimeStartFilmSession),
-            $filmSessionDto->ticketsCount,
+            date_create_immutable($filmSession['dateTimeStart']),
+            $filmSession['numberOfSeats'],
         );
 
         $manager->persist($filmSession);
