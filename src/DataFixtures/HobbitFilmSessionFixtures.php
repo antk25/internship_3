@@ -17,7 +17,7 @@ final class HobbitFilmSessionFixtures extends Fixture
             'film' => 'Хоббит',
             'filmDuration' => 220,
             'dateTimeStart' => '22.06.2022 15:30',
-            'numberOfSeats' => 15,
+            'numberOfSeats' => 2,
         ];
 
         $filmSessionDto = new FilmSessionDto();
