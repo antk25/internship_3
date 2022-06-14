@@ -20,6 +20,7 @@ final class Client
     {
         self::assertThatNameIsValid($name);
         self::assertThatPhoneIsValid($phone);
+
         $this->name = $name;
         $this->phone = $phone;
     }
