@@ -30,7 +30,7 @@ final class Client
      */
     private static function assertThatNameIsValid(string $name): void
     {
-        if (!preg_match('/[A-zА-я-]{3,15}$/m', $name)) {
+        if (!preg_match('/^[а-яё]{3,30}|[a-z]{3,30}$/iu', $name)) {
             throw new \Exception('Invalid name');
         }
     }
