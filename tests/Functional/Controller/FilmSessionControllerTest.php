@@ -30,7 +30,7 @@ final class FilmSessionControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', 'film-sessions');
 
         $this->assertResponseIsSuccessful();
-        $this->assertCount(3, $crawler->filter('h2'));
+        $this->assertCount(2, $crawler->filter('h2'));
     }
 
     public function testNotBookTicketIfNoSeatsAvailable(): void
