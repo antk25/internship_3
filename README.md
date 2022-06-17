@@ -8,3 +8,10 @@
 6. Запустите команду `docker exec -it resolventa_backend_internship_php-fpm_1 bash composer install`
 7. Установите миграции и фикстуры командой `docker exec -it resolventa_backend_internship_php-fpm_1 bash install/migrations.sh`
 8. Перейдите на [страницу списка сеансов](http://localhost/film-sessions)
+
+## Тесты
+
+Запуск тестов `docker exec -it resolventa_backend_internship_php-fpm_1 make tests`
+
+Для тестирования используется отдельная БД. Фикстуры в функциональных тестах оборачиваются в транзакции и после выполнения теста откатываются.
+
