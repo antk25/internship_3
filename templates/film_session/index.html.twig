@@ -8,6 +8,7 @@
         .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
         .film-container { margin-bottom: 20px; }
         .button { font-size: large }
+        .number_of_seats { font-weight: bold }
     </style>
 
     <div class="example-wrapper">
@@ -20,8 +21,8 @@
                     <li>Дата сеанса: {{ filmSession.filmStartAt|date('Y.m.d') }}</li>
                     <li>Время начала: {{ filmSession.filmStartAt|date('H:i') }}</li>
                     <li>Время окончания: {{ filmSession.FilmEndAt|date('H:i') }}</li>
-                    <li>Кол-во свободных мест: {{ filmSession.countOfTicketsAvailable }}</li>
                 </ul>
+                <p class="number_of_seats">Кол-во свободных мест: {{ filmSession.countOfTicketsAvailable }}</p>
 
                 <a href="{{ path('film_session', { id: filmSession.filmSessionId }) }}"><button class="button">Выбрать</button></a>
 
