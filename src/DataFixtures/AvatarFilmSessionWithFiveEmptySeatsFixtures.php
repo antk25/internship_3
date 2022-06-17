@@ -8,15 +8,15 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Uid\Uuid;
 
-final class HobbitFilmSessionFixtures extends Fixture
+final class AvatarFilmSessionWithFiveEmptySeatsFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
         $filmSession = [
-            'film' => 'Хоббит',
-            'filmDuration' => 220,
-            'dateTimeStart' => '22.06.2022 15:30',
-            'numberOfSeats' => 0,
+            'film' => 'Аватар',
+            'filmDuration' => 180,
+            'dateTimeStart' => '23.06.2022 10:00',
+            'numberOfSeats' => 5,
         ];
 
         $filmSession = new FilmSession(
