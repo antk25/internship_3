@@ -2,44 +2,59 @@
 
 namespace App\Tests\Functional\Controller;
 
-use App\DataFixtures\AvatarFilmSessionFixtures;
-use App\DataFixtures\HobbitFilmSessionFixtures;
+use App\DataFixtures\AvatarFilmSessionWithFiveEmptySeatsFixtures;
+use App\DataFixtures\HobbitFilmSessionWithNoEmptySeatsFixtures;
 use App\Domain\Booking\Repository\DoctrineFilmSessionRepository;
-use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
-use Liip\TestFixturesBundle\Services\DatabaseTools\AbstractDatabaseTool;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use App\Tests\Functional\AbstractFunctionalTestCase;
 
-final class FilmSessionControllerTest extends WebTestCase
+final class FilmSessionControllerTest extends AbstractFunctionalTestCase
 {
-    protected AbstractDatabaseTool $databaseTool;
-
-    /**
-     * @throws \Exception
-     */
     public function setUp(): void
     {
-        $this->client = self::createClient();
-        $this->databaseTool = self::getContainer()->get(DatabaseToolCollection::class)->get();
+        parent::setUp();
+
         $this->repository = self::getContainer()->get(DoctrineFilmSessionRepository::class);
     }
 
-    public function testRequestResponseSuccessfulResult(): void
+    public function testShowAvailableSessions(): void
     {
-        $this->databaseTool->loadFixtures([HobbitFilmSessionFixtures::class, AvatarFilmSessionFixtures::class], true);
+        $this->databaseTool->loadFixtures([
+            HobbitFilmSessionWithNoEmptySeatsFixtures::class,
+            AvatarFilmSessionWithFiveEmptySeatsFixtures::class,
+        ], true);
 
         $crawler = $this->client->request('GET', 'film-sessions');
 
         $this->assertResponseIsSuccessful();
-        $this->assertCount(2, $crawler->filter('h2'));
+        $this->assertCount($this->repository->count([]), $crawler->filter('h2'));
+    }
+
+    public function testBookTicketViaFormIfSuccessfulRedirectToFilmSessions(): void
+    {
+        $this->databaseTool->loadFixtures([AvatarFilmSessionWithFiveEmptySeatsFixtures::class], true);
+
+        $this->client->request('GET', 'film-sessions');
+
+        $this->client->clickLink('Выбрать');
+
+        $this->client->submitForm('Save', [
+            'book_ticket[name]' => 'Федор',
+            'book_ticket[phone]' => '89565263535',
+        ]);
+        $this->assertResponseRedirects();
+        $this->client->followRedirect();
+
+        $this->assertPageTitleContains('Список сеансов');
+        $this->assertSelectorTextContains('p.number_of_seats', 'Кол-во свободных мест: 4');
     }
 
     public function testNotBookTicketIfNoSeatsAvailable(): void
     {
-        $this->databaseTool->loadFixtures([HobbitFilmSessionFixtures::class], true);
+        $this->databaseTool->loadFixtures([HobbitFilmSessionWithNoEmptySeatsFixtures::class], true);
 
-        $filmSession = $this->repository->findOneBy([]);
+        $this->client->request('GET', 'film-sessions');
 
-        $this->client->request('GET', 'film-sessions/' . $filmSession->getFilmSessionId());
+        $this->client->clickLink('Выбрать');
 
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('p', 'Билетов не осталось');
