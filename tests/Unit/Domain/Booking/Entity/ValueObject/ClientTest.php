@@ -11,6 +11,7 @@ final class ClientTest extends TestCase
     {
         $this->expectException(\Throwable::class);
         $this->expectExceptionMessage('Invalid phone format');
+
         new Client('Федор', '452');
     }
 
