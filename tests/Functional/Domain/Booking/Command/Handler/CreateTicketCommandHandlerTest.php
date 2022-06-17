@@ -2,36 +2,39 @@
 
 namespace App\Tests\Functional\Domain\Booking\Command\Handler;
 
-use App\DataFixtures\AvatarFilmSessionFixtures;
-use App\DataFixtures\HobbitFilmSessionFixtures;
+use App\DataFixtures\AvatarFilmSessionWithFiveEmptySeatsFixtures;
+use App\DataFixtures\HobbitFilmSessionWithNoEmptySeatsFixtures;
 use App\Domain\Booking\Command\BookTicketCommand;
 use App\Domain\Booking\Repository\DoctrineFilmSessionRepository;
-use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
-use Liip\TestFixturesBundle\Services\DatabaseTools\AbstractDatabaseTool;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use App\Tests\Functional\AbstractFunctionalTestCase;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-final class CreateTicketCommandHandlerTest extends WebTestCase
+final class CreateTicketCommandHandlerTest extends AbstractFunctionalTestCase
 {
-    protected AbstractDatabaseTool $databaseTool;
-
-    /**
-     * @throws \Exception
-     */
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->databaseTool = self::getContainer()->get(DatabaseToolCollection::class)->get();
         $this->repository = self::getContainer()->get(DoctrineFilmSessionRepository::class);
         $this->messageBus = self::getContainer()->get(MessageBusInterface::class);
     }
 
-    protected function tearDown(): void
+    /**
+     * @throws \Throwable
+     */
+    public function testTicketBookSuccessfully(): void
     {
-        parent::tearDown();
+        $this->databaseTool->loadFixtures([AvatarFilmSessionWithFiveEmptySeatsFixtures::class], true);
 
-        unset($this->databaseTool);
+        $filmSession = $this->repository->findOneBy(['film.title' => 'Аватар']);
+
+        $bookTicketCommand = new BookTicketCommand($filmSession);
+        $bookTicketCommand->name = 'Федор';
+        $bookTicketCommand->phone = '89563245689';
+
+        $this->messageBus->dispatch($bookTicketCommand);
+
+        $this->assertEquals(4, $filmSession->getCountOfTicketsAvailable());
     }
 
     /**
@@ -39,9 +42,9 @@ final class CreateTicketCommandHandlerTest extends WebTestCase
      */
     public function testTicketBookWhenNoSeatsAvailable(): void
     {
-        $this->databaseTool->loadFixtures([HobbitFilmSessionFixtures::class], true);
+        $this->databaseTool->loadFixtures([HobbitFilmSessionWithNoEmptySeatsFixtures::class], true);
 
-        $filmSession = $this->repository->findOneBy([]);
+        $filmSession = $this->repository->findOneBy(['film.title' => 'Хоббит']);
 
         $bookTicketCommand = new BookTicketCommand($filmSession);
         $bookTicketCommand->name = 'Федор';
@@ -51,23 +54,5 @@ final class CreateTicketCommandHandlerTest extends WebTestCase
         $this->expectExceptionMessage('No more tickets');
 
         $this->messageBus->dispatch($bookTicketCommand);
-    }
-
-    /**
-     * @throws \Throwable
-     */
-    public function testTicketBookSuccessfully(): void
-    {
-        $this->databaseTool->loadFixtures([AvatarFilmSessionFixtures::class], true);
-
-        $filmSession = $this->repository->findOneBy([]);
-
-        $bookTicketCommand = new BookTicketCommand($filmSession);
-        $bookTicketCommand->name = 'Федор';
-        $bookTicketCommand->phone = '89563245689';
-
-        $this->messageBus->dispatch($bookTicketCommand);
-
-        $this->assertCount(1, $filmSession->getTickets());
     }
 }
