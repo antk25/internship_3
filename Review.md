@@ -1,78 +1,43 @@
-Результаты ревью:
+Результаты ревью этап "тестирование":
 
-- [x] Я предлагаю структуру папок привести к следующему виду
-<pre>
-src
-+-- Controller
-+-- DataFixtures
-+-- Domain
-|   +-- Booking
-|   |   +-- Collection
-|   |   +-- Command
-|   |   +-- Entity
-|   |   +-- Form
-|   |   +-- Repository
-|   +-- Kernel.php
-templates
-</pre>
-- [x] FilmSessionController:19 При получении методами контроллера исключений приложение будет возвращать 500 ошибку, хочется видеть перехват и ошибку 404 (NotFoundHttpException)
-- [x] FilmSessionController:21 В маршрутах не очень удачно стыкуются данные '/films', name: 'film_sessions. Предлагаю привести к одному смыслу, - фильмы или сеансы.
-- [x] FilmSessionController:36 У symfony, есть конвертер параметров. Предлагаю ознакомиться и переделать https://symfony.com/doc/current/routing.html#parameter-conversion
-- [x] FilmSessionController:37 имя $bus не отражает суть. Лучше будет переименовать в $messageBus.
-- [x] FilmSessionController:39 Команда CreateTicketCommand после рефакторинга станет простой структурой данных. Можно ее инициализировать и передать в форму, для наполнения.
-- [x] FilmSessionController:35 FilmSessionRepository в домене видел FilmSessionRepositoryInterface. Судя по всему план был его использовать в контроллере. Сейчас выглядит странно выделение интерфейса и не использование его.
-- [x] FilmSessionController:48 Предлагаю унести на слой инфраструктуры(в handler) функционал создания клиента.
-- [x] FilmSessionRepository предлагаю унести в домен. Так у нас принято делать в проектах.
-- [x] FilmSessionRepositoryInterface не очень удачное именование методов. Лучше переименовать в findById и save. Чаще всего именно такое именование можно встретить на проектах у нас в компании
-```php
-interface FilmSessionRepositoryInterface
+- [ ] Предлагаю переименовать фикстуры, заменив в названии EmptySeats на FreeSeats.
+- [ ] $filmSession в фикстурах - очень странное решение. Предлагаю не использовать массив. тем более у переменной 2 ответственности, что максимально странно. Если хочется оставить массив, его лучше вынести в константу.
+- [ ] AvatarFilmSessionWithFiveEmptySeatsFixtures:26 предлагаю конструкцию преобразовать в следующий вид, будет более понятно, что происходит:
+```phpt
+new \DateInterval(sprintf('PT%dM', self::FILM_DURATION_IN_MINUTES)),
+```
+- [ ] AvatarFilmSessionWithFiveEmptySeatsFixtures:28 Предлагаю отказаться от использования псевдонима и использовать DateTimeImmutable::__construct()
+- [ ] Мы в проектах фикстуры складываем в Doctrine\Common\DataFixtures\ReferenceRepository. Пример кода:
+```phpt
+final class AvatarFilmSessionWithFiveEmptySeatsFixtures extends Fixture
 {
-    public function findById(string $id): ?FilmSession;
-    public function save(FilmSession $filmSession): void;
-}
-```
-- [x] index.html.twig:17 лишний перенос и в строке 22 опечатка
-- [x] index.html.twig при использовании twig можно обращаться к entity так: Можно сделать так: <li>Дата сеанса: {{ filmSession.dateTimeStartFilmSession|date('Y.m.d') }}</li>
-- [x] show.html.twig:15 отсутствует отступ.
-- [x] Имя для CreateTicketCommand выбрано неудачно, вводит в заблуждение. По факту команда не "создает билет", а бронирует место. Предлагаю переименовать.
-- [x] CreateTicketCommand - Для создания билета тебе необходимы только "сеанс", "имя" и "номер" клиента.
-- [x] После рефакторинга, в команде CreateTicketCommand останутся "простые" данные, которые легко будет валидировать перед выполнением операции.
-- [x] Все handler-ы мы обычно уносим в подпапку, например:
-<pre>
-+-- Command
-|   +-- Handler
-|   |   +-- CreateTicketHandler.php
-|   +-- CreateTicketCommand.php
-</pre>
-- [x] CreateTicketHandler:16 дурной тон использовать ManagerRegistry в handler, этого необходимо избегать использовать исключительно репозитории по возможности в конструкторе. 
-Думаю что для этого handler-а будет лучше написать отдельный репозиторий FilmSessionRepository 
-- [x] CreateTicketHandler в целом при разработке handler-a было произведено большое количество изменений в логике домена которых не должно быть:
-1) checkTicketsAvail() - стал публичным, не думаю что это хорошая затея.
-2) $ticket = $this->bookTicket($createTicketCommand); - Бронирование билета стало создавать билет.
-3) private function updateCountTickets(CreateTicketCommand $createTicketCommand): void - очень странный метод. Который стал результатом серьезных ухудшений в рамках сущности.
-- [x] NewClientType - предлагаю унести в соответствии с вышеупомянутой структурой, подумать над именованием, добавить для обязательных полей required.
-- [x] Не понимаю какую проблему решает UuidService с точки зрения архитектуры. В любом случа Entity о сервисе знать не должны, т.е. UuidService::generate() должно выполняться на уровне инфраструктуры.
-- [x] В Client есть 2 метода, которые похоже не используются getName(), getPhone()
-- [x] FilmSession в целом все изменения методов сущности, ухудшили его использование. Предлагаю вернуться к изначальной версии, за исключением описания аттрибутов доктрины и добавления id в конструктор.
-- [x] Film::filmLength напрашивается на изменение формата внутри домена. Предлагаю как прием, так и возврат значения привести к одному виду в рамках этого класса. 
-- [x] После внедрения доктрины в классы Film, FilmSession мы по сути храним в двух форматах одни и те же данные: $filmLength, $timeEndFilmSession. Думаю, что $timeEndFilmSession избыточен и его вполне нормально рассчитывать.
-- [x] В README.md в 5п.п. мне, как разработчику предлагается "Запустите команду `composer install`" эта операция происходит за рамками контейнера, предлагаю это улучшить и выполнять composer install в контейнере resolventa_backend_internship_php-fpm_1
-- [x] в конфиге doctrine.yaml фигурирует `alias: App` для домена. Мы обычно в качестве alias задаем название домена в данном случае `alias: Booking` 
-- [x] предлагаю разбить фикстуру на 3 независимые.
-- [x] вернуть валидацию в ValueObjects
-- [x] FilmSession::calcTimeEndFilmSession() - не удачно именование для метода. По факту метод возвращает время окончание сеанса. Предлагаю оставить логику в этом методе, сделать его приватным переименовав в calculateFilmEndAt, и добавить метод getFilmEndAt()
-- [x] В FilmSession::bookTicket переносы кажутся излишними между:
-```
-$ticketId = Uuid::v4();
-$ticket = new Ticket($ticketId, $client, $this);
-$this->tickets->add($ticket);
-$this->ticketsCount--;
-```
-- [x] FilmSession кажется, что передачу параметров в конструктор можно записать в одну строку.
-- [x] Client в конструкторе предлагаю разделить блоки проверки и присвоения значений в строке 23 добавив перенос.
-- [x] Предлагаю избавиться от transfer objects на текущий момент они используются исключительно в фикстурах, и никакой задачи не выполняют.
-- [x] При изменении структуры хранения данных в БД, обязательно нужно сохранять историческую целостность(версионность). Сейчас была заменена логика ранее созданной миграции, в ветке master. Этого категорически делать нельзя при условии, что в таблице могли оказаться данные.
-- [x] В readme не исправил 8-й пункт, после изменения маршрута.
-- [x] В репозиториях остались не используемые методы findById. TicketRepositoryInterface - вообще не нужен.
-- [x] FilmSession::getDateTimeStartFilmSession() именование не очень удачно из-за постфикса FilmSession. Предлагаю переименовать в что-то наподобие getFilmStartAt()
+    public const AVATAR_FILM_SESSION_WITH_FIVE_FREE_SEATS = 'avatarFilmSessionWithFiveFreeSeats';
 
+    public function load(ObjectManager $manager): void
+    {
+        
+        $filmSession = new FilmSession(...);
+
+        $manager->persist($filmSession);
+        $manager->flush();
+
+        $this->addReference(self::AVATAR_FILM_SESSION_WITH_FIVE_FREE_SEATS, $filmSession);
+    }
+}
+
+Далее в теста возможно такое использование: 
+
+        $referenceRepository = $this->loadFixtures([
+            AvatarFilmSessionWithFiveEmptySeatsFixtures::class,
+        ])->getReferenceRepository();
+
+        $filmSession = $referenceRepository->getReference(AvatarFilmSessionWithFiveEmptySeatsFixtures::AVATAR_FILM_SESSION_WITH_FIVE_FREE_SEATS);
+```
+- [ ] FilmSessionTest::setUp() Создание $filmSession лучше унести в отдельный приватный метод.
+- [ ] FilmSessionTest:23 $this->film - это приватное не используемое в дальнейшем свойство. Его необходимо преобразовать в локальную переменную.
+- [ ] Во всех тестах необходимо придерживаться Arrange-Act-Assert.
+- [ ] Переименовать тестирующие методы, чтобы они соответствовали реальному сценарию. Например: testTicketBookWhenNoSeatsAvailable -> testBookingTicketWithoutSeatsShouldGiveException
+- [ ] В тесте testBookTicketIncreaseNumberOfBookedTickets проверка `$this->assertEquals(0, $this->filmSession->getCountOfTicketsAvailable());` - избыточна.
+- [ ] В тесте testBookTicketWhenNoSeatsThrowOutException именование у переменных $client1, $client2 не содержательно. Предлагаю переименовать.
+- [ ] В CreateTicketCommandHandlerTest:29, код теста неявно связан с фикстурой, чтобы этого избежать мы используем ReferenceRepository(см. пример выше)
+- [ ] Для BookTicketCommand тестирование пограничных условий валидации было бы отлично добавить.
