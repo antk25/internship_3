@@ -5,54 +5,57 @@ namespace App\Tests\Functional\Domain\Booking\Command\Handler;
 use App\DataFixtures\AvatarFilmSessionWithFiveFreeSeatsFixtures;
 use App\DataFixtures\HobbitFilmSessionWithNoFreeSeatsFixtures;
 use App\Domain\Booking\Command\BookTicketCommand;
-use App\Domain\Booking\Repository\DoctrineFilmSessionRepository;
-use App\Tests\Functional\AbstractFunctionalTestCase;
+use App\Domain\Booking\Repository\FilmSessionRepositoryInterface;
+use App\Tests\Functional\FunctionalTestCase;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-final class CreateTicketCommandHandlerTest extends AbstractFunctionalTestCase
+final class CreateTicketCommandHandlerTest extends FunctionalTestCase
 {
+    private MessageBusInterface $messageBus;
+    private FilmSessionRepositoryInterface $repository;
+
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->repository = self::getContainer()->get(DoctrineFilmSessionRepository::class);
+        $this->repository = self::getContainer()->get(FilmSessionRepositoryInterface::class);
         $this->messageBus = self::getContainer()->get(MessageBusInterface::class);
     }
 
     /**
      * @throws \Throwable
      */
-    public function testTicketBookSuccessfully(): void
+    public function testBookingTicketWhenAvailableSeatsShouldBeSuccessful(): void
     {
-        $this->databaseTool->loadFixtures([AvatarFilmSessionWithFiveFreeSeatsFixtures::class]);
+        $fixture = $this->loadFixtures([AvatarFilmSessionWithFiveFreeSeatsFixtures::class]);
+        $referenceRepository = $fixture->getReferenceRepository();
+        $filmSession = $referenceRepository->getReference(AvatarFilmSessionWithFiveFreeSeatsFixtures::AVATAR_FILM_SESSION_WITH_FIVE_FREE_SEATS);
 
-        $filmSession = $this->repository->findOneBy(['film.title' => 'Аватар']);
-
-        $bookTicketCommand = new BookTicketCommand($filmSession);
+        $exitingFilmSession = $this->repository->findOneBy(['film.title' => $filmSession->getFilmTitle()]);
+        $bookTicketCommand = new BookTicketCommand($exitingFilmSession);
         $bookTicketCommand->name = 'Федор';
         $bookTicketCommand->phone = '89563245689';
-
         $this->messageBus->dispatch($bookTicketCommand);
 
-        $this->assertEquals(4, $filmSession->getCountOfTicketsAvailable());
+        $this->assertEquals($filmSession->getCountOfTicketsAvailable(), $exitingFilmSession->getCountOfTicketsAvailable());
     }
 
     /**
      * @throws \Throwable
      */
-    public function testTicketBookWhenNoSeatsAvailable(): void
+    public function testBookingTicketWithoutSeatsShouldGiveException(): void
     {
-        $this->databaseTool->loadFixtures([HobbitFilmSessionWithNoFreeSeatsFixtures::class]);
+        $fixture = $this->loadFixtures([HobbitFilmSessionWithNoFreeSeatsFixtures::class]);
+        $referenceRepository = $fixture->getReferenceRepository();
+        $filmSession = $referenceRepository->getReference(HobbitFilmSessionWithNoFreeSeatsFixtures::HOBBIT_FILM_SESSION_WITH_NO_FREE_SEATS);
 
-        $filmSession = $this->repository->findOneBy(['film.title' => 'Хоббит']);
-
-        $bookTicketCommand = new BookTicketCommand($filmSession);
+        $exitingFilmSession = $this->repository->findOneBy(['film.title' => $filmSession->getFilmTitle()]);
+        $bookTicketCommand = new BookTicketCommand($exitingFilmSession);
         $bookTicketCommand->name = 'Федор';
         $bookTicketCommand->phone = '89563245689';
 
         $this->expectException(\Throwable::class);
         $this->expectExceptionMessage('No more tickets');
-
         $this->messageBus->dispatch($bookTicketCommand);
     }
 }
