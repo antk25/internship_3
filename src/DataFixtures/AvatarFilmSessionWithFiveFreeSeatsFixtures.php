@@ -10,27 +10,29 @@ use Symfony\Component\Uid\Uuid;
 
 final class AvatarFilmSessionWithFiveFreeSeatsFixtures extends Fixture
 {
+    public const AVATAR_FILM_SESSION_WITH_FIVE_FREE_SEATS = 'avatarFilmSessionWithFiveFreeSeats';
+    public const FILM_DURATION_IN_MINUTES = 180;
+    public const FILM_SESSION_AVAILABLE_TICKETS = 5;
+    public const FILM_SESSION_DATE_TIME_START = '23.06.2022 10:00';
+
+    /**
+     * @throws \Exception
+     */
     public function load(ObjectManager $manager): void
     {
-        $filmSession = [
-            'film' => 'Аватар',
-            'filmDuration' => 180,
-            'dateTimeStart' => '23.06.2022 10:00',
-            'numberOfSeats' => 5,
-        ];
+        $film = new Film('Аватар', new \DateInterval(sprintf('PT%dM', self::FILM_DURATION_IN_MINUTES)));
 
         $filmSession = new FilmSession(
             Uuid::v4(),
-            new Film(
-                $filmSession['film'],
-                \DateInterval::createFromDateString($filmSession['filmDuration'] . 'minutes'),
-            ),
-            date_create_immutable($filmSession['dateTimeStart']),
-            $filmSession['numberOfSeats'],
+            $film,
+            new \DateTimeImmutable(self::FILM_SESSION_DATE_TIME_START),
+            self::FILM_SESSION_AVAILABLE_TICKETS,
         );
 
         $manager->persist($filmSession);
 
         $manager->flush();
+
+        $this->addReference(self::AVATAR_FILM_SESSION_WITH_FIVE_FREE_SEATS, $filmSession);
     }
 }
