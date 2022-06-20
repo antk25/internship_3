@@ -16,6 +16,7 @@ final class FilmSessionTest extends TestCase
     public function testGetFilmTitle(): void
     {
         $expectedFilmTitle = 'Аватар';
+
         $filmSession = $this->createFilmSession(
             Uuid::v4(),
             $expectedFilmTitle,
@@ -32,6 +33,7 @@ final class FilmSessionTest extends TestCase
     public function testGetFilmStartAt(): void
     {
         $expectedFilmSessionStartAt = self::createFilmSessionStartDateTime();
+
         $filmSession = $this->createFilmSession(
             Uuid::v4(),
             'Аватар',
@@ -48,6 +50,7 @@ final class FilmSessionTest extends TestCase
     public function testCountOfTicketsAvailable(): void
     {
         $expectedCountOfTicketsAvailable = 1;
+
         $filmSession = $this->createFilmSession(
             Uuid::v4(),
             'Аватар',
@@ -89,6 +92,7 @@ final class FilmSessionTest extends TestCase
             self::createFilmDuration(),
             self::createFilmSessionStartDateTime(),
         );
+
         $this->assertEquals($expectedFilmSessionId, $filmSession->getFilmSessionId());
     }
 
@@ -99,6 +103,7 @@ final class FilmSessionTest extends TestCase
     {
         $filmSessionStartAt = self::createFilmSessionStartDateTime();
         $filmDuration = self::createFilmDuration();
+        $expected = $filmSessionStartAt->add($filmDuration);
 
         $filmSession = $this->createFilmSession(
             Uuid::v4(),
@@ -106,8 +111,6 @@ final class FilmSessionTest extends TestCase
             $filmDuration,
             $filmSessionStartAt,
         );
-
-        $expected = $filmSessionStartAt->add($filmDuration);
 
         $this->assertEquals($expected, $filmSession->getFilmEndAt());
     }
@@ -117,14 +120,13 @@ final class FilmSessionTest extends TestCase
      */
     public function testIfBookingIsSuccessfulTicketShouldIntoCollection(): void
     {
+        $client = new Client('Олег', '89524562389');
         $filmSession = $this->createFilmSession(
             Uuid::v4(),
             'Аватар',
             self::createFilmDuration(),
             self::createFilmSessionStartDateTime(),
         );
-
-        $client = new Client('Олег', '89524562389');
 
         $filmSession->bookTicket($client);
 
@@ -137,7 +139,7 @@ final class FilmSessionTest extends TestCase
     public function testIfBookingIsSuccessfulNumberOfAvailableSeatsShouldDecreaseByOne(): void
     {
         $countOfTicketsAvailable = 3;
-
+        $client = new Client('Олег', '89524562389');
         $filmSession = $this->createFilmSession(
             Uuid::v4(),
             'Аватар',
@@ -145,8 +147,6 @@ final class FilmSessionTest extends TestCase
             self::createFilmSessionStartDateTime(),
             $countOfTicketsAvailable,
         );
-
-        $client = new Client('Олег', '89524562389');
 
         $filmSession->bookTicket($client);
 
@@ -159,7 +159,8 @@ final class FilmSessionTest extends TestCase
     public function testBookingTicketWithoutSeatsShouldGiveException(): void
     {
         $countOfTicketsAvailable = 1;
-
+        $client = new Client('Олег', '89524562389');
+        $clientWhenTicketsOut = new Client('Олег', '89524562389');
         $filmSession = $this->createFilmSession(
             Uuid::v4(),
             'Аватар',
@@ -168,14 +169,10 @@ final class FilmSessionTest extends TestCase
             $countOfTicketsAvailable,
         );
 
-        $client = new Client('Олег', '89524562389');
-        $clientWhenTicketsOut = new Client('Олег', '89524562389');
-
         $filmSession->bookTicket($client);
 
         $this->expectException(\Throwable::class);
         $this->expectExceptionMessage('No more tickets');
-
         $filmSession->bookTicket($clientWhenTicketsOut);
     }
 
