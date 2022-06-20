@@ -2,8 +2,8 @@
 
 namespace App\Tests\Functional\Controller;
 
-use App\DataFixtures\AvatarFilmSessionWithFiveEmptySeatsFixtures;
-use App\DataFixtures\HobbitFilmSessionWithNoEmptySeatsFixtures;
+use App\DataFixtures\AvatarFilmSessionWithFiveFreeSeatsFixtures;
+use App\DataFixtures\HobbitFilmSessionWithNoFreeSeatsFixtures;
 use App\Domain\Booking\Repository\DoctrineFilmSessionRepository;
 use App\Tests\Functional\AbstractFunctionalTestCase;
 
@@ -19,8 +19,8 @@ final class FilmSessionControllerTest extends AbstractFunctionalTestCase
     public function testShowAvailableSessions(): void
     {
         $this->databaseTool->loadFixtures([
-            HobbitFilmSessionWithNoEmptySeatsFixtures::class,
-            AvatarFilmSessionWithFiveEmptySeatsFixtures::class,
+            HobbitFilmSessionWithNoFreeSeatsFixtures::class,
+            AvatarFilmSessionWithFiveFreeSeatsFixtures::class,
         ]);
 
         $crawler = $this->client->request('GET', 'film-sessions');
@@ -31,7 +31,7 @@ final class FilmSessionControllerTest extends AbstractFunctionalTestCase
 
     public function testBookTicketViaFormIfSuccessfulRedirectToFilmSessions(): void
     {
-        $this->databaseTool->loadFixtures([AvatarFilmSessionWithFiveEmptySeatsFixtures::class]);
+        $this->databaseTool->loadFixtures([AvatarFilmSessionWithFiveFreeSeatsFixtures::class]);
 
         $this->client->request('GET', 'film-sessions');
 
@@ -50,7 +50,7 @@ final class FilmSessionControllerTest extends AbstractFunctionalTestCase
 
     public function testNotBookTicketIfNoSeatsAvailable(): void
     {
-        $this->databaseTool->loadFixtures([HobbitFilmSessionWithNoEmptySeatsFixtures::class]);
+        $this->databaseTool->loadFixtures([HobbitFilmSessionWithNoFreeSeatsFixtures::class]);
 
         $this->client->request('GET', 'film-sessions');
 
