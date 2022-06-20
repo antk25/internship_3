@@ -4,21 +4,23 @@ namespace App\Tests\Functional\Controller;
 
 use App\DataFixtures\AvatarFilmSessionWithFiveFreeSeatsFixtures;
 use App\DataFixtures\HobbitFilmSessionWithNoFreeSeatsFixtures;
-use App\Domain\Booking\Repository\DoctrineFilmSessionRepository;
-use App\Tests\Functional\AbstractFunctionalTestCase;
+use App\Domain\Booking\Repository\FilmSessionRepositoryInterface;
+use App\Tests\Functional\FunctionalTestCase;
 
-final class FilmSessionControllerTest extends AbstractFunctionalTestCase
+final class FilmSessionControllerTest extends FunctionalTestCase
 {
+    private FilmSessionRepositoryInterface $repository;
+
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->repository = self::getContainer()->get(DoctrineFilmSessionRepository::class);
+        $this->repository = self::getContainer()->get(FilmSessionRepositoryInterface::class);
     }
 
-    public function testShowAvailableSessions(): void
+    public function testOnSessionsPageShouldDisplayAllAvailableFilmSessions(): void
     {
-        $this->databaseTool->loadFixtures([
+        $this->loadFixtures([
             HobbitFilmSessionWithNoFreeSeatsFixtures::class,
             AvatarFilmSessionWithFiveFreeSeatsFixtures::class,
         ]);
@@ -31,29 +33,25 @@ final class FilmSessionControllerTest extends AbstractFunctionalTestCase
 
     public function testBookTicketViaFormIfSuccessfulRedirectToFilmSessions(): void
     {
-        $this->databaseTool->loadFixtures([AvatarFilmSessionWithFiveFreeSeatsFixtures::class]);
+        $this->loadFixtures([AvatarFilmSessionWithFiveFreeSeatsFixtures::class]);
 
         $this->client->request('GET', 'film-sessions');
-
         $this->client->clickLink('Выбрать');
-
         $this->client->submitForm('Save', [
             'book_ticket[name]' => 'Федор',
             'book_ticket[phone]' => '89565263535',
         ]);
-        $this->assertResponseRedirects();
         $this->client->followRedirect();
 
         $this->assertPageTitleContains('Список сеансов');
         $this->assertSelectorTextContains('p.number_of_seats', 'Кол-во свободных мест: 4');
     }
 
-    public function testNotBookTicketIfNoSeatsAvailable(): void
+    public function testIfNoSeatsAvailableShouldBeDisplayNoTicketsLeft(): void
     {
-        $this->databaseTool->loadFixtures([HobbitFilmSessionWithNoFreeSeatsFixtures::class]);
+        $this->loadFixtures([HobbitFilmSessionWithNoFreeSeatsFixtures::class]);
 
         $this->client->request('GET', 'film-sessions');
-
         $this->client->clickLink('Выбрать');
 
         $this->assertResponseIsSuccessful();
