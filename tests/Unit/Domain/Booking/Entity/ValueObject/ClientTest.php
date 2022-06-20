@@ -7,31 +7,43 @@ use PHPUnit\Framework\TestCase;
 
 final class ClientTest extends TestCase
 {
-    public function testThrowExceptionAnInvalidPhoneFormat(): void
+    /**
+     * @throws \Exception
+     */
+    public function testIfPhoneNumberEnteredIncorrectlyShouldGiveException(): void
     {
+        $correctName = 'Федор';
+        $wrongPhone = '452';
+
         $this->expectException(\Throwable::class);
         $this->expectExceptionMessage('Invalid phone format');
-
-        new Client('Федор', '452');
+        new Client($correctName, $wrongPhone);
     }
 
     /**
      * @throws \Exception
      */
-    public function testThrowExceptionAnInvalidNameFormat(): void
+    public function testIfClientNameEnteredIncorrectlyShouldGiveException(): void
     {
+        $wrongName = 'Фе';
+        $correctPhone = '89526548978';
+
         $this->expectException(\Throwable::class);
         $this->expectExceptionMessage('Invalid name');
 
-        new Client('Фе', '89526548978');
+        new Client($wrongName, $correctPhone);
     }
 
     /**
      * @throws \Exception
      */
-    public function testSuccessfullyCreateClient(): void
+    public function testIfClientNameAndPhoneNumberEnteredCorrectlyShouldBeCreateObjectOfClientClass(): void
     {
-        $client = new Client('Федор', '89526548978');
+        $correctName = 'Федор';
+        $correctPhone = '89526548978';
+
+        $client = new Client($correctName, $correctPhone);
+
         $this->assertInstanceOf(Client::class, $client);
     }
 }
