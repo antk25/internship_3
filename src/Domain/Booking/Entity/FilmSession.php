@@ -12,7 +12,7 @@ use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: DoctrineFilmSessionRepository::class)]
 #[ORM\Table(name: 'film_sessions')]
-final class FilmSession
+class FilmSession
 {
     #[ORM\Column(type: 'uuid')]
     #[ORM\Id]
