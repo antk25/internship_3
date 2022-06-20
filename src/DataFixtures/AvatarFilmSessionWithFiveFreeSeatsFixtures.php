@@ -8,7 +8,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Uid\Uuid;
 
-final class AvatarFilmSessionWithFiveEmptySeatsFixtures extends Fixture
+final class AvatarFilmSessionWithFiveFreeSeatsFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {

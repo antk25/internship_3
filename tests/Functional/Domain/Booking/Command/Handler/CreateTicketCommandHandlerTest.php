@@ -2,8 +2,8 @@
 
 namespace App\Tests\Functional\Domain\Booking\Command\Handler;
 
-use App\DataFixtures\AvatarFilmSessionWithFiveEmptySeatsFixtures;
-use App\DataFixtures\HobbitFilmSessionWithNoEmptySeatsFixtures;
+use App\DataFixtures\AvatarFilmSessionWithFiveFreeSeatsFixtures;
+use App\DataFixtures\HobbitFilmSessionWithNoFreeSeatsFixtures;
 use App\Domain\Booking\Command\BookTicketCommand;
 use App\Domain\Booking\Repository\DoctrineFilmSessionRepository;
 use App\Tests\Functional\AbstractFunctionalTestCase;
@@ -24,7 +24,7 @@ final class CreateTicketCommandHandlerTest extends AbstractFunctionalTestCase
      */
     public function testTicketBookSuccessfully(): void
     {
-        $this->databaseTool->loadFixtures([AvatarFilmSessionWithFiveEmptySeatsFixtures::class]);
+        $this->databaseTool->loadFixtures([AvatarFilmSessionWithFiveFreeSeatsFixtures::class]);
 
         $filmSession = $this->repository->findOneBy(['film.title' => 'Аватар']);
 
@@ -42,7 +42,7 @@ final class CreateTicketCommandHandlerTest extends AbstractFunctionalTestCase
      */
     public function testTicketBookWhenNoSeatsAvailable(): void
     {
-        $this->databaseTool->loadFixtures([HobbitFilmSessionWithNoEmptySeatsFixtures::class]);
+        $this->databaseTool->loadFixtures([HobbitFilmSessionWithNoFreeSeatsFixtures::class]);
 
         $filmSession = $this->repository->findOneBy(['film.title' => 'Хоббит']);
 
