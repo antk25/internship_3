@@ -10,94 +10,203 @@ use Symfony\Component\Uid\Uuid;
 
 final class FilmSessionTest extends TestCase
 {
-    private string $filmTitle;
-    private \DateInterval $filmDuration;
-    private FilmSession $filmSession;
-    private Uuid $filmSessionId;
-    private \DateTimeInterface $filmSessionStartAt;
-
-    public function setUp(): void
-    {
-        $this->filmTitle = 'Аватар';
-        $this->filmDuration = \DateInterval::createFromDateString('180 minutes');
-        $this->film = new Film($this->filmTitle, $this->filmDuration);
-
-        $this->filmSessionId = Uuid::v4();
-        $this->filmSessionStartAt = date_create_immutable('23.06.2022 10:10');
-        $this->filmSession = new FilmSession($this->filmSessionId, $this->film, $this->filmSessionStartAt, 1);
-    }
-
+    /**
+     * @throws \Exception
+     */
     public function testGetFilmTitle(): void
     {
-        $this->assertEquals($this->filmTitle, $this->filmSession->getFilmTitle());
+        $expectedFilmTitle = 'Аватар';
+        $filmSession = $this->createFilmSession(
+            Uuid::v4(),
+            $expectedFilmTitle,
+            self::createFilmDuration(),
+            self::createFilmSessionStartDateTime(),
+        );
+
+        $this->assertEquals($expectedFilmTitle, $filmSession->getFilmTitle());
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testGetFilmStartAt(): void
     {
-        $this->assertEquals($this->filmSessionStartAt, $this->filmSession->getFilmStartAt());
+        $expectedFilmSessionStartAt = self::createFilmSessionStartDateTime();
+        $filmSession = $this->createFilmSession(
+            Uuid::v4(),
+            'Аватар',
+            self::createFilmDuration(),
+            $expectedFilmSessionStartAt,
+        );
+
+        $this->assertEquals($expectedFilmSessionStartAt, $filmSession->getFilmStartAt());
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testCountOfTicketsAvailable(): void
     {
-        $this->assertEquals(1, $this->filmSession->getCountOfTicketsAvailable());
+        $expectedCountOfTicketsAvailable = 1;
+        $filmSession = $this->createFilmSession(
+            Uuid::v4(),
+            'Аватар',
+            self::createFilmDuration(),
+            self::createFilmSessionStartDateTime(),
+            $expectedCountOfTicketsAvailable,
+        );
+
+        $this->assertEquals($expectedCountOfTicketsAvailable, $filmSession->getCountOfTicketsAvailable());
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testGetFilmDuration(): void
     {
-        $this->assertEquals($this->filmDuration, $this->filmSession->getFilmDuration());
+        $expectedFilmDuration = self::createFilmDuration();
+
+        $filmSession = $this->createFilmSession(
+            Uuid::v4(),
+            'Аватар',
+            $expectedFilmDuration,
+            self::createFilmSessionStartDateTime(),
+        );
+
+        $this->assertEquals($expectedFilmDuration, $filmSession->getFilmDuration());
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testGetFilmSessionId(): void
     {
-        $this->assertEquals($this->filmSessionId, $this->filmSession->getFilmSessionId());
+        $expectedFilmSessionId = Uuid::v4();
+
+        $filmSession = $this->createFilmSession(
+            $expectedFilmSessionId,
+            'Аватар',
+            self::createFilmDuration(),
+            self::createFilmSessionStartDateTime(),
+        );
+        $this->assertEquals($expectedFilmSessionId, $filmSession->getFilmSessionId());
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testGetFilmEndAt(): void
     {
-        $expected = $this->filmSessionStartAt->add($this->filmDuration);
+        $filmSessionStartAt = self::createFilmSessionStartDateTime();
+        $filmDuration = self::createFilmDuration();
 
-        $this->assertEquals($expected, $this->filmSession->getFilmEndAt());
+        $filmSession = $this->createFilmSession(
+            Uuid::v4(),
+            'Аватар',
+            $filmDuration,
+            $filmSessionStartAt,
+        );
+
+        $expected = $filmSessionStartAt->add($filmDuration);
+
+        $this->assertEquals($expected, $filmSession->getFilmEndAt());
     }
 
     /**
      * @throws \Exception
      */
-    public function testBookTicketIncreaseNumberOfBookedTickets(): void
+    public function testIfBookingIsSuccessfulTicketShouldIntoCollection(): void
     {
+        $filmSession = $this->createFilmSession(
+            Uuid::v4(),
+            'Аватар',
+            self::createFilmDuration(),
+            self::createFilmSessionStartDateTime(),
+        );
+
         $client = new Client('Олег', '89524562389');
 
-        $this->filmSession->bookTicket($client);
+        $filmSession->bookTicket($client);
 
-        $this->assertCount(1, $this->filmSession->getTickets());
-
-        $this->assertEquals(0, $this->filmSession->getCountOfTicketsAvailable());
+        $this->assertCount(1, $filmSession->getTickets());
     }
 
     /**
      * @throws \Exception
      */
-    public function testBookTicketDecreaseNumberOfSeatsAvailable(): void
+    public function testIfBookingIsSuccessfulNumberOfAvailableSeatsShouldDecreaseByOne(): void
     {
+        $countOfTicketsAvailable = 3;
+
+        $filmSession = $this->createFilmSession(
+            Uuid::v4(),
+            'Аватар',
+            self::createFilmDuration(),
+            self::createFilmSessionStartDateTime(),
+            $countOfTicketsAvailable,
+        );
+
         $client = new Client('Олег', '89524562389');
 
-        $this->filmSession->bookTicket($client);
+        $filmSession->bookTicket($client);
 
-        $this->assertEquals(0, $this->filmSession->getCountOfTicketsAvailable());
+        $this->assertEquals($countOfTicketsAvailable - 1, $filmSession->getCountOfTicketsAvailable());
     }
 
     /**
      * @throws \Exception
      */
-    public function testBookTicketWhenNoSeatsThrowOutException(): void
+    public function testBookingTicketWithoutSeatsShouldGiveException(): void
     {
-        $client1 = new Client('Олег', '89524562389');
-        $client2 = new Client('Олег', '89524562389');
+        $countOfTicketsAvailable = 1;
 
-        $this->filmSession->bookTicket($client1);
+        $filmSession = $this->createFilmSession(
+            Uuid::v4(),
+            'Аватар',
+            self::createFilmDuration(),
+            self::createFilmSessionStartDateTime(),
+            $countOfTicketsAvailable,
+        );
+
+        $client = new Client('Олег', '89524562389');
+        $clientWhenTicketsOut = new Client('Олег', '89524562389');
+
+        $filmSession->bookTicket($client);
 
         $this->expectException(\Throwable::class);
         $this->expectExceptionMessage('No more tickets');
 
-        $this->filmSession->bookTicket($client2);
+        $filmSession->bookTicket($clientWhenTicketsOut);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    private function createFilmSession(
+        Uuid $filmSessionId,
+        string $filmTitle,
+        \DateInterval $filmDuration,
+        \DateTimeImmutable $filmSessionStartAt,
+        int $countOfTicketsAvailable = 5,
+    ): FilmSession {
+        $film = new Film($filmTitle, $filmDuration);
+
+        return new FilmSession($filmSessionId, $film, $filmSessionStartAt, $countOfTicketsAvailable);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    private static function createFilmDuration(): \DateInterval
+    {
+        return new \DateInterval(sprintf('PT%dM', 180));
+    }
+
+    /**
+     * @throws \Exception
+     */
+    private static function createFilmSessionStartDateTime(): \DateTimeImmutable
+    {
+        return new \DateTimeImmutable('26.06.2022 10:10');
     }
 }
