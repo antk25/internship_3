@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Список сеансов{% endblock %}
+
+{% block body %}
+    <style>
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+        .film-container { margin-bottom: 20px; }
+        .button { font-size: large }
+        .number_of_seats { font-weight: bold }
+    </style>
+
+    <div class="example-wrapper">
+
+        {{ include('/film_session/banner/_banner.html.twig') }}
+
+        <h1>Список клиентов</h1>
+
+        {% for filmSession in filmSessions %}
+            {% for ticket in filmSession.tickets %}
+                <table>
+                    <tr>
+                        <td>Имя клиента</td>
+                        <td>Сеанс</td>
+                        <td>Телефон</td>
+                    </tr>
+                    <tr>
+                        <td>{{ ticket.client.name|trim|title }}</td>
+                        <td>
+                            Название: {{ ticket.filmSession.filmTitle }},
+                            Дата/время начала сеанса: {{ ticket.filmSession.filmStartAt|date('d.m.Y') }},
+                            Продолжительность: {{ ticket.filmSession.filmDuration|date('%i минут') }}
+                        </td>
+                        <td>{{ ticket.client.phone|phone }}</td>
+                    </tr>
+                </table>
+            {% endfor %}
+        {% endfor %}
+    </div>
+{% endblock %}

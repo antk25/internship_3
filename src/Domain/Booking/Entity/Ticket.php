@@ -36,4 +36,14 @@ final class Ticket
     {
         return $this->id;
     }
+
+    public function getClient(): Client
+    {
+        return $this->client;
+    }
+
+    public function getFilmSession(): FilmSession
+    {
+        return $this->filmSession;
+    }
 }

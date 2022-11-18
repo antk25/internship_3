@@ -47,4 +47,14 @@ final class FilmSessionController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    #[Route('/clients', name: 'clients')]
+    public function showClients(FilmSessionRepositoryInterface $filmSessionRepository): Response
+    {
+        $filmSessions = $filmSessionRepository->findAll();
+
+        return $this->render('film_session/clients.html.twig', [
+            'filmSessions' => $filmSessions,
+        ]);
+    }
 }

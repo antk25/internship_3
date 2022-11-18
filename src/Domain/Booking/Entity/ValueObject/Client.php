@@ -25,6 +25,16 @@ final class Client
         $this->phone = $phone;
     }
 
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getPhone(): string
+    {
+        return $this->phone;
+    }
+
     /**
      * @throws \Exception
      */
