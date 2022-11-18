@@ -12,6 +12,9 @@
     </style>
 
     <div class="example-wrapper">
+
+        {{ include('/film_session/banner/_banner.html.twig') }}
+
         <h1>Список сеансов</h1>
 
         {% for filmSession in filmSessions %}
