@@ -58,6 +58,18 @@ services:
     networks:
       - internal
 
+  node:
+    build:
+      context: ./node
+    volumes:
+      - ./../:/usr/src/app
+    ports:
+      - 8080:8080
+    environment:
+      - PORT=8080
+    networks:
+      - internal
+
 volumes:
   php-fpm:
     driver: "local"
