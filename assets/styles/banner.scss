@@ -1,0 +1,11 @@
+.banner {
+  margin: auto;
+  padding: 20px;
+  border: 2px solid #B0413E;
+  text-align: center;
+
+  &__content {
+    font-size: 20px;
+    font-weight: bold;
+  }
+}

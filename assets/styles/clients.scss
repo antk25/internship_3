@@ -1,0 +1,15 @@
+.table {
+
+  &__head {
+    font-weight: bold;
+  }
+
+  &__body {
+    td {
+      padding: 10px;
+      font-size: 16px;
+      max-width: 400px;
+      border: 1px solid #AAAAAA;
+    }
+  }
+}

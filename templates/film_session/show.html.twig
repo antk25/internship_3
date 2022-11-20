@@ -3,37 +3,37 @@
 {% block title %}Забронировать билет на фильм {{ filmSession.filmTitle }}{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
 
     {{ include('/film_session/banner/_banner.html.twig') }}
 
     <h1>{{ filmSession.filmTitle }}</h1>
 
-    <ul>
-        <li>Продолжительность сеанса: {{ filmSession.filmDuration|date('%i минут') }}</li>
-        <li>Дата сеанса: {{ filmSession.filmStartAt|date('Y.m.d') }}</li>
-        <li>Вермя начала: {{ filmSession.filmStartAt|date('H:i') }}</li>
-        <li>Время окончания: {{ filmSession.FilmEndAt|date('H:i') }}</li>
-        <li>Кол-во свободных мест: {{ filmSession.countOfTicketsAvailable }}</li>
-    </ul>
+    <div class="film">
+        <div class="film__content">
+            <ul>
+                <li>Продолжительность сеанса: {{ filmSession.filmDuration|date('%i минут') }}</li>
+                <li>Дата сеанса: {{ filmSession.filmStartAt|date('Y.m.d') }}</li>
+                <li>Вермя начала: {{ filmSession.filmStartAt|date('H:i') }}</li>
+                <li>Время окончания: {{ filmSession.FilmEndAt|date('H:i') }}</li>
+                <li>Кол-во свободных мест: {{ filmSession.countOfTicketsAvailable }}</li>
+            </ul>
+        </div>
 
-    <h2>Забронировать</h2>
+        <div class="film__booking">
+            <h2>Забронировать</h2>
 
-    {% if filmSession.countOfTicketsAvailable >= 1 %}
+            {% if filmSession.countOfTicketsAvailable >= 1 %}
 
-        {{ form(form) }}
+                {{ form(form) }}
 
-        {% else %}
+            {% else %}
 
-            <p>Билетов не осталось</p>
-            <p>Выберите другой <a href="{{ path('film_sessions') }}">сеанс</a></p>
+                <p>Билетов не осталось</p>
+                <p>Выберите другой <a href="{{ path('film_sessions') }}">сеанс</a></p>
 
-    {% endif %}
+            {% endif %}
+        </div>
+    </div>
 
-</div>
+    {{ include('/film_session/menu/_menu.html.twig') }}
 {% endblock %}

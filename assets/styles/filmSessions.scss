@@ -1,0 +1,37 @@
+.film-wrapper {
+  display: flex;
+}
+
+.film-container {
+  padding: 10px;
+  border: 2px #AAAAAA solid;
+  border-radius: 5%;
+  margin: 0 10px 20px 0;
+
+  &__title {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px 0 10px 0;
+  }
+
+  &__content {
+    font-size: 16px;
+    ul {
+      margin-bottom: 10px;
+    }
+
+    ul>li {
+      padding: 10px 0 0 0;
+    }
+  }
+
+  &__button {
+    a {
+      text-decoration: none;
+      font-size: 20px;
+    }
+    margin: 20px 0 10px 0;
+    text-align: center;
+  }
+}
